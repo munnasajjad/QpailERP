@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://cmp.aktel.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://cmp.aktel.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://cmp.aktel.com/">
+      <s:element name="SendTextMultiMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="From" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendTextMultiMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendTextMultiMessageResult" type="tns:ArrayOfServiceClass" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfServiceClass">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceClass" nillable="true" type="tns:ServiceClass" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ServiceClass">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MessageId" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusText" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ErrorCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorText" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SMSCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentCredit" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendTextMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="From" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendTextMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendTextMessageResult" type="tns:ServiceClass" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendWAPPush">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="From" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WAPText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WAPURL" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendWAPPushResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendWAPPushResult" type="tns:ServiceClass" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="MessageId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMessageStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMessageStatusResult" type="tns:ServiceClass" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfServiceClass" nillable="true" type="tns:ArrayOfServiceClass" />
+      <s:element name="ServiceClass" nillable="true" type="tns:ServiceClass" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SendTextMultiMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:SendTextMultiMessage" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMultiMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:SendTextMultiMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:SendTextMessage" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:SendTextMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendWAPPushSoapIn">
+    <wsdl:part name="parameters" element="tns:SendWAPPush" />
+  </wsdl:message>
+  <wsdl:message name="SendWAPPushSoapOut">
+    <wsdl:part name="parameters" element="tns:SendWAPPushResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMessageStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMessageStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMultiMessageHttpGetIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="From" type="s:string" />
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="Message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMultiMessageHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMessageHttpGetIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="From" type="s:string" />
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="Message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMessageHttpGetOut">
+    <wsdl:part name="Body" element="tns:ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="SendWAPPushHttpGetIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="From" type="s:string" />
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="WAPText" type="s:string" />
+    <wsdl:part name="WAPURL" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWAPPushHttpGetOut">
+    <wsdl:part name="Body" element="tns:ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStatusHttpGetIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="MessageId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMultiMessageHttpPostIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="From" type="s:string" />
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="Message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMultiMessageHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMessageHttpPostIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="From" type="s:string" />
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="Message" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendTextMessageHttpPostOut">
+    <wsdl:part name="Body" element="tns:ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="SendWAPPushHttpPostIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="From" type="s:string" />
+    <wsdl:part name="To" type="s:string" />
+    <wsdl:part name="WAPText" type="s:string" />
+    <wsdl:part name="WAPURL" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SendWAPPushHttpPostOut">
+    <wsdl:part name="Body" element="tns:ServiceClass" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStatusHttpPostIn">
+    <wsdl:part name="Username" type="s:string" />
+    <wsdl:part name="Password" type="s:string" />
+    <wsdl:part name="MessageId" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMessageStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:ServiceClass" />
+  </wsdl:message>
+  <wsdl:portType name="CMPWebServiceSoap">
+    <wsdl:operation name="SendTextMultiMessage">
+      <wsdl:input message="tns:SendTextMultiMessageSoapIn" />
+      <wsdl:output message="tns:SendTextMultiMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <wsdl:input message="tns:SendTextMessageSoapIn" />
+      <wsdl:output message="tns:SendTextMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <wsdl:input message="tns:SendWAPPushSoapIn" />
+      <wsdl:output message="tns:SendWAPPushSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <wsdl:input message="tns:GetMessageStatusSoapIn" />
+      <wsdl:output message="tns:GetMessageStatusSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="CMPWebServiceHttpGet">
+    <wsdl:operation name="SendTextMultiMessage">
+      <wsdl:input message="tns:SendTextMultiMessageHttpGetIn" />
+      <wsdl:output message="tns:SendTextMultiMessageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <wsdl:input message="tns:SendTextMessageHttpGetIn" />
+      <wsdl:output message="tns:SendTextMessageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <wsdl:input message="tns:SendWAPPushHttpGetIn" />
+      <wsdl:output message="tns:SendWAPPushHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <wsdl:input message="tns:GetMessageStatusHttpGetIn" />
+      <wsdl:output message="tns:GetMessageStatusHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="CMPWebServiceHttpPost">
+    <wsdl:operation name="SendTextMultiMessage">
+      <wsdl:input message="tns:SendTextMultiMessageHttpPostIn" />
+      <wsdl:output message="tns:SendTextMultiMessageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <wsdl:input message="tns:SendTextMessageHttpPostIn" />
+      <wsdl:output message="tns:SendTextMessageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <wsdl:input message="tns:SendWAPPushHttpPostIn" />
+      <wsdl:output message="tns:SendWAPPushHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <wsdl:input message="tns:GetMessageStatusHttpPostIn" />
+      <wsdl:output message="tns:GetMessageStatusHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CMPWebServiceSoap" type="tns:CMPWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendTextMultiMessage">
+      <soap:operation soapAction="http://cmp.aktel.com/SendTextMultiMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <soap:operation soapAction="http://cmp.aktel.com/SendTextMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <soap:operation soapAction="http://cmp.aktel.com/SendWAPPush" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <soap:operation soapAction="http://cmp.aktel.com/GetMessageStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CMPWebServiceSoap12" type="tns:CMPWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendTextMultiMessage">
+      <soap12:operation soapAction="http://cmp.aktel.com/SendTextMultiMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <soap12:operation soapAction="http://cmp.aktel.com/SendTextMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <soap12:operation soapAction="http://cmp.aktel.com/SendWAPPush" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <soap12:operation soapAction="http://cmp.aktel.com/GetMessageStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CMPWebServiceHttpGet" type="tns:CMPWebServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="SendTextMultiMessage">
+      <http:operation location="/SendTextMultiMessage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <http:operation location="/SendTextMessage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <http:operation location="/SendWAPPush" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <http:operation location="/GetMessageStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CMPWebServiceHttpPost" type="tns:CMPWebServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="SendTextMultiMessage">
+      <http:operation location="/SendTextMultiMessage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTextMessage">
+      <http:operation location="/SendTextMessage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendWAPPush">
+      <http:operation location="/SendWAPPush" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessageStatus">
+      <http:operation location="/GetMessageStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CMPWebService">
+    <wsdl:port name="CMPWebServiceSoap" binding="tns:CMPWebServiceSoap">
+      <soap:address location="http://cmp.robi.com.bd/WS/CMPWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CMPWebServiceSoap12" binding="tns:CMPWebServiceSoap12">
+      <soap12:address location="http://cmp.robi.com.bd/WS/CMPWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CMPWebServiceHttpGet" binding="tns:CMPWebServiceHttpGet">
+      <http:address location="http://cmp.robi.com.bd/WS/CMPWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CMPWebServiceHttpPost" binding="tns:CMPWebServiceHttpPost">
+      <http:address location="http://cmp.robi.com.bd/WS/CMPWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

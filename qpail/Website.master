@@ -1,0 +1,186 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Website.master.cs" Inherits="Website" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Social Development Society Ltd, Online Based Microcredit Company. Online Micro-Finance Banking MLM Micro Credit Management System Software by Extreme Solutions http://www.xtremebd.com </title>
+    <meta name="keywords" content="Online Micro-Credit Software, Co-operative Banking Software, Online Multi level Marketting Software, Cooperative Banking Management Software" /> 
+    <meta name="description" content="Social Development Society Ltd, Online Based Microcredit Company. Online Micro-Finance Banking MLM Micro Credit Management System Software by Extreme Solutions http://www.xtremebd.com, Best and Easiest Enterprise Online Micro-Finance, Banking, MLM, Micro-Credit Management System Software Company Extreme Solutions, Chittagong, Bangladesh. Online ERP System for Industrial Businesses" />
+    <meta name="GENERATOR" content="Microsoft Visual Studio .NET 9" />
+    <meta name="CODE_LANGUAGE" content="C#" />
+    <meta name="vs_defaultClientScript" content="JavaScript" />
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+    <meta name="author" content="Md. Akter Uddin Rony" />
+    <meta name="copyright" content="Copyright © Extreme Solutions" />
+    <meta name="owner" content="Extreme Solutions" />
+    
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link href="base.css" rel="stylesheet" type="text/css" />
+    <link href="mocha.css" rel="stylesheet" type="text/css" media="screen" />
+    
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    
+
+	<div class="header-top">
+    	<div class="header-center clearfix">
+    	<div class="search">
+        	
+				<div>
+					<input type="text" value="search" onblur="if (this.value == '') {this.value = 'search';}"  onfocus="if (this.value == 'search') {this.value = '';}" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+	   	</div>
+        
+      	<div class="login">
+                <ul><li>
+                    <asp:LoginView ID="LoginView1" runat="server">
+                        <LoggedInTemplate>
+                            Welcome back:  <asp:LoginName ID="LoginName1" runat="server" />
+                            <asp:LoginStatus ID="LoginStatus1" runat="server" />
+                        </LoggedInTemplate>
+                        <AnonymousTemplate>
+                            <div id="click-login" class="user-login"><a href="#">MPO/ Member Login</a></div>
+                        </AnonymousTemplate>
+                    </asp:LoginView>
+                    </li>
+                </ul>
+            </div>
+        
+        </div><!-- Header Center -->
+    </div><!-- Header Top -->
+
+
+   	<div id="signup-box">
+		<div class="signup-login">
+        	<div class="signup-login-text">
+        	<h3>Login to your MPO Account</h3>
+        	<p><img src="images/info-icon.png" alt="image" class="alignleft" /></p>
+            </div>
+        	
+            	<p>User ID: <asp:TextBox ID="txtUser2" runat="server" class="yourname" /></p>
+                <p>Password: <asp:TextBox ID="txtPassword2" runat="server" /></p>
+                <p><asp:Button ID="btnLogin2" runat="server" Text="Login" class="usersubmit" /></p>
+           	
+        </div>
+    </div><!-- Signup Box, hidden from view -->
+        
+   	<div id="login-box">
+		<div class="signup-login">
+        	<div class="signup-login-text">
+        	
+        	<p><img src="images/avatar.png" alt="image" class="alignleft" /> Login with your username and the password you received &rarr; &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; </p>
+            </div>
+            <p align="right">
+            <asp:Login ID="loginform" runat="server"  
+                    FailureText="Your account login process failed. Please try again." 
+                    TitleText="Login to your SDL Account" onloggedin="loginform_LoggedIn" 
+                    PasswordRecoveryText="Forget Your Password?" 
+                    PasswordRecoveryUrl="~/ResetPassword.aspx" RememberMeSet="True" UserNameLabelText="User ID : ">
+                <TextBoxStyle Height="25px" />
+                <LoginButtonStyle Width="100px" Height="25px" />
+            </asp:Login>
+            </p>
+        </div>
+    </div><!-- Login Box, hidden from view -->
+        
+<div id="body">
+
+	<div class="header">
+		<h1></h1>
+		<!-- Header Ends -->
+	
+	<div id="nav" class="nav">
+		<ul>
+			<li><a href="Default.aspx">Home</a></li>
+            <li><a href="About.aspx">About Us</a>
+                <ul>
+                	<li><a href="About.aspx">Company Overview</a></li>
+                    <li><a href="Mission.aspx">Mission & Vision</a></li>
+                    <li><a href="Management.aspx">Management Team</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Schemes</a>
+            	<ul>
+                	<li><a href="Deposit.aspx">Deposit Schemes</a>
+                    	<%--<ul>
+                        	<li><a href="DPS.aspx">D.P.S</a></li>
+                            <li><a href="MSS.aspx">M.S.S</a></li>
+                            <li><a href="LSP.aspx">L.S.P</a></li>
+                            <li><a href="DBP.aspx">D.B.P</a></li>
+                            <li><a href="MBP.aspx">M.B.P</a></li>
+                            <li><a href="SBP.aspx">S.B.P</a></li>
+                        </ul>--%>
+                    </li>
+                    <li><a href="Loan.aspx">Loan Schemes</a>
+                    	
+                    </li>
+                </ul>
+            </li>
+			<li><a href="Projects.aspx">Projects</a><ul>
+                	<li><a href="#">Social Projects</a>
+                    	<ul>
+                        	<li><a href="#">Plantation</a></li>
+                            <li><a href="#">Blood Bank</a></li>
+                            <li><a href="#">Scholarships</a></li>
+                            <li><a href="#">Education</a></li>
+                            <li><a href="#">Medical</a></li>
+                            <li><a href="#">Relief</a></li>
+                            <li><a href="#">Social Awareness</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Comm. Projects</a>
+                    	<ul>
+                        	<li><a href="#">Investment Loans</a></li>
+                            <li><a href="#">Housing</a></li>
+                            <li><a href="#">Share-Market</a></li>
+                            <li><a href="#">Electronics</a></li>
+                            <li><a href="#">Transport</a></li>
+                            
+                            <li><a href="#">SME Industries</a></li>
+                            <li><a href="#">IT Training</a></li>
+                            <li><a href="#">Courier Service</a></li>
+                            <li><a href="#">Poltry & Dairy</a></li>
+                            <li><a href="#">Water Plant</a></li>
+                            <li><a href="#">Com. Plantation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+			</li>
+			<li><a href="Career.aspx">Career</a></li>
+			<li><a href="Legal.aspx">Legal</a></li>
+			<li><a href="Contact.aspx">Contact</a></li>
+		</ul>
+	</div><!-- Navigation Ends -->
+	</div>
+	<div class="section wrap text clearfix">
+        <asp:ContentPlaceHolder id="BodyContant" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    
+    <div class="footer foot-end">
+    	<ul class="clearfix">
+        	<li class="copyright">&copy; 2011 Social Development Society Ltd. All Rights Reserved.</li>
+            <li class="end-links">
+            	<ul>
+                	<li><a href="Application/Dashboard.aspx">Software Login</a></li>
+                    <li><a href="http://webmail.sdlbd.org/imp/login.php">Check Webmail</a></li>
+               	</ul>
+            </li><!-- Ends Links -->
+       	</ul>
+    </div>
+    
+</div><!-- Main Body Ends -->
+
+<script type="text/javascript" src="js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="js/theme.js"></script>
+
+    </form>
+<!-- Developed By: Extreme Solutions, http://www.xtremebd.com, Start Date- 15/08/2011 -->
+</body>
+</html>

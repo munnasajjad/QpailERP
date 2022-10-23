@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "qpailerp", "http://localhost/qpailerp", "{11D3D1BA-8E91-4786-BC83-20FB9516F52B}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "false"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/qpail"
+		Debug.AspNetCompiler.PhysicalPath = "qpail\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\qpail\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/qpail"
+		Release.AspNetCompiler.PhysicalPath = "qpail\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\qpail\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "qpail\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11D3D1BA-8E91-4786-BC83-20FB9516F52B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D3D1BA-8E91-4786-BC83-20FB9516F52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D3D1BA-8E91-4786-BC83-20FB9516F52B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D3D1BA-8E91-4786-BC83-20FB9516F52B}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {402C2EB2-6624-4A5D-9BE1-6F2D9529355B}
+	EndGlobalSection
+EndGlobal

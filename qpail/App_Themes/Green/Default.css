@@ -1,0 +1,292 @@
+﻿
+body {
+margin: 0 0 0 0;
+background-color: #fff;
+}
+
+a {
+text-decoration: none;
+color: #6f0;
+}
+
+a:hover {
+text-decoration: underline;
+color: #6f0;
+}
+
+#preload {
+width: 0;
+height: 0;
+display: inline;
+background-image: url('menubg.jpg');
+}
+
+#header {
+width: 100%; height: 150px;
+margin: 0 0 0 0;
+background-color: #3b3b3b;
+vertical-align: bottom;
+z-index: 1;
+}
+
+#header h1 {
+display: block;
+position: absolute;
+margin: 116px 0 0 0; padding: 0;
+background-color: transparent;
+color: #fff;
+font-family: 'trebuchet ms', 'century gothic', verdana, sans-serif;
+font-size: 35px;
+font-weight: 400;
+z-index: 4;
+}
+
+span {
+color: #6f0;
+}
+
+#header big {
+float: right;
+margin: 50px 0 0 0; padding: 0;
+color: #444;
+font-family: 'trebuchet ms', 'century gothic', verdana, sans-serif;
+font-size: 100px;
+letter-spacing: -11px;
+}
+
+#menu {
+position: absolute; top: 150px;
+width: 100%;
+height: 61px;
+margin: 0 0 0 0;
+background-color: #000;
+border-top: solid 1px #fff;
+border-bottom: solid 1px #fff;
+z-index: 3;
+text-align: center;
+}
+
+
+#menu ul {
+margin-top: 20px;
+}
+
+#menu ul li {
+display: inline;
+}
+
+#menu ul li a {
+background-color: transparent;
+background-repeat: repeat-x;
+padding: 14px 20px 14px 20px;
+font-size: 0.8em;
+font-family: 'century gothic', verdana, sans-serif;
+color: #666;
+font-weight: bold;
+text-decoration: none;
+border: solid 1px #000;
+}
+
+#menu ul li a:hover {
+background: #6f0 url('menugreen.jpg') repeat-x top;
+color: #fff;
+text-decoration: none;
+border: solid 1px #fff;
+}
+
+#main {
+position: absolute; top: 211px;
+width: 100%;
+background: url('main.jpg') repeat-x top;
+}
+
+#container {
+width: 90%;
+margin: 0 auto;
+padding-top: 50px;
+font-family: arial;
+font-size: 0.9em;
+}
+
+#subnav {
+clear: left;
+float: left;
+width: 140px;
+padding: 0;
+font-size: 0.6em;
+font-family: verdana, arial, sans-serif;
+}
+
+#subnav ul {	
+list-style: none;
+width: 140px;
+margin: 0 0 20px 0;
+padding: 0;
+font-size: 1.1em;
+}	
+
+#subnav li {
+margin-bottom: 1px;
+}
+
+#subnav li a {
+font-weight: bold;
+height: 20px;
+text-decoration: none;
+color: #cccccc;
+display: block;
+padding: 5px;
+background: #3b3b3b;
+border-right: 10px solid #fff;
+}	
+	
+#subnav li a:hover {
+background: #6f0;
+color: #ffffff;
+border-right: 10px solid #6f0;
+}
+
+#subnav .child {
+font-size: 0.9em;
+padding: 0;
+}
+
+#subnav .child a {
+height: 14px;
+padding-left: 10px; 
+border-right: 10px solid #fff;
+background: #bbb;
+color: #666;
+}
+
+#subnav .child a:hover {
+color: #6f0;
+background-color: #e0e0e0;
+border-right: 10px solid #fff;
+}
+
+#content {
+margin: 0 200px 10px 165px;
+border-right: 1px solid #ccc; padding: 0 20px 0 0;
+line-height: 1.6em;
+color: #666;
+font-size: 0.9em;
+}
+
+#content p {
+padding-bottom: 5px;
+}
+
+h1 {
+margin-top: 0px;
+color: #6f0;
+letter-spacing: -2px;
+font-family: 'trebuchet ms', 'century gothic', verdana, sans-serif;
+}
+
+h2 {
+margin-top: 20px;
+margin-bottom: 10px;
+color: #666;
+letter-spacing: -1px;
+font-size: 1.3em; font-weight: 400;
+font-family: 'trebuchet ms', 'century gothic', verdana, sans-serif;
+}
+
+
+.right {
+float: right;
+margin: 0 0 8px 12px;
+padding: 4px;
+background-color: #FFF;
+border: 1px solid #CCC;
+}
+
+#footer {
+padding: 5px;
+margin-top: 10px;
+margin-bottom: 3px;
+color: #aaa;
+font-size: 0.7em;
+text-align: center;
+border-top: 1px solid #ccc;
+}
+
+#extras {
+clear: right;
+float: right;
+width: 175px;
+margin-left: 10px;
+margin-bottom: 20px;
+padding: 0;
+color: #666;
+}
+
+#extras p {
+line-height: 1.5em;
+margin: 0 0 1.5em 0;
+font-size: 0.7em;
+}
+
+#box1 {
+background: #fff url('boxbg.jpg') repeat-x top;
+border: 1px solid #ccc;
+width: 30%;  
+float: left; 
+margin: 0 2px; text-align: left;
+padding: 1px; 
+}
+
+#box2 { 
+background: #fff url('boxbg.jpg') repeat-x top;
+border: 1px solid #ccc;
+margin: 0 auto;
+width: 30%;  text-align: left; 
+padding: 1px;
+}
+
+#box3 { 
+background: #fff url('boxbg.jpg') repeat-x top;
+border: 1px solid #ccc;
+width: 30%; 
+float: right; 
+margin: 0 2px; text-align: left;
+padding: 1px;
+}
+
+
+#box1 h2, #box2 h2, #box3 h2 {
+margin-left: 4px;
+}
+
+.center {
+text-align:center;
+display:block;
+margin-top: 15px;
+}
+
+.box {
+margin: 0 4px 4px 4px;
+line-height: 1.3em;
+font-size: 0.8em;
+border: 0;
+}
+
+#seo{
+color:#fcfcfc; 
+padding-top:0px; 
+font-size:9px; 
+text-align:left
+}
+.msghead
+{
+    
+    color: #FF3300;
+    font-size: large;
+}
+.msgbody
+{
+    color: #003300;
+    font-size: medium;
+    text-align: justify;
+}

@@ -1,0 +1,3037 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Postmark</name>
+    </assembly>
+    <members>
+        <member name="T:PostmarkDotNet.TemplatedPostmarkMessage">
+            <summary>
+            Send a message using a template that you have previously created in Postmark.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkMessageBase">
+            <summary>
+              A message destined for the Postmark service.
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.#ctor">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkMessage"/> class.
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.AddAttachment(System.String)">
+            <summary>
+              Adds a file attachment.
+              Assumes the content type default of "application/octet-stream".
+            </summary>
+            <param name = "path">The full path to the file to attach</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.AddAttachment(System.String,System.String)">
+            <summary>
+              Adds a file attachment.
+            </summary>
+            <param name = "path">The full path to the file to attach</param>
+            <param name = "contentType">The content type.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.AddAttachment(System.String,System.String,System.String)">
+            <summary>
+              Adds a file attachment with an inline image.
+            </summary>
+            <param name = "path">The full path to the file to attach</param>
+            <param name = "contentType">The content type.</param>
+            <param name = "contentId">ContentID for inline images</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.AddAttachment(System.Byte[],System.String,System.String)">
+            <summary>
+              Adds a file attachment using a byte[] array
+            </summary>
+            <param name = "path">The full path to the file to attach</param>
+            <param name = "contentType">ContentID for inline images.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.AddAttachment(System.Byte[],System.String,System.String,System.String)">
+            <summary>
+              Adds a file attachment using a byte[] array with inline support
+            </summary>
+            <param name = "path">The full path to the file to attach</param>
+            <param name = "contentType">The content type.</param>
+            <param name = "contentId">The ContentId for inline images.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.ValidateAttachmentPath(System.String)">
+            <summary>
+            Be sure the path to the attachment actually exists
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessageBase.ValidateAttachmentLength(System.String)">
+            <summary>
+            Restrict attacments to 10 mb. The API will do this anyway but this is faster
+            </summary>
+            <param name="content"></param>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.From">
+            <summary>
+              The sender's email address.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.To">
+            <summary>
+              Any recipients. Separate multiple recipients with a comma.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.Cc">
+            <summary>
+              Any CC recipients. Separate multiple recipients with a comma.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.Bcc">
+            <summary>
+              Any BCC recipients. Separate multiple recipients with a comma.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.ReplyTo">
+            <summary>
+              The email address to reply to. This is optional.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.Tag">
+            <summary>
+              An optional message tag, that is used for breaking down
+              statistics using the Postmark web administration UI.
+              For example, you can break email down into application specific
+              areas like "Invitation", or "BillingReminder".
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.TrackOpens">
+            <summary>
+            Track this message using Postmark's OpenTracking feature. Message should be in html
+            to allow for tracking techniques
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.TrackLinks">
+            <summary>
+            Setting determining whether to track links, default is "None"
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.Headers">
+            <summary>
+              A collection of optional message headers.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageBase.Attachments">
+            <summary>
+              A collection of optional file attachments.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.TemplatedPostmarkMessage.InlineCss">
+            <summary>
+            Should the CSS in the HtmlBody of the template be inlined? Defaults to true.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.TemplatedPostmarkMessage.TemplateId">
+            <summary>
+            The template to use when sending this message.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.TemplatedPostmarkMessage.TemplateModel">
+             <summary>
+             The values to merge with the template when creating the content.
+            
+             The message sending API requires that this be an *object* as described by the JSON specification.
+            
+             This means that you can assign a Dictionary&lt;K,V&gt; to this property. 
+             The dictionary may contain any keys and or objects that can be serialized to JSON.
+             
+             Additionally, POCOs and anonymous types can be assigned to this property, 
+             provided they can be serialized to JSON (we use JSON.net internally).
+            
+             Objects that would be serialized as "JSON scalars" or arrays should *not* be assigned to this property.
+             (They MAY be set as values on the TemplateModel, though)
+             
+             See this guide for more information on how this model is used, and how Postmark Templates work:
+             http://support.postmarkapp.com/article/786-using-a-postmark-starter-template
+             </summary>
+        </member>
+        <member name="T:PostmarkDotNet.IPostmarkClient">
+            <summary>
+             Defines the contract for the Postmark API.
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginSendMessage(System.String,System.String,System.String,System.String)">
+            <summary>
+            Sends a message through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction.</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginSendMessage(System.String,System.String,System.String,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Sends a message through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender</param>
+            <param name="to">An email address for a recipient</param>
+            <param name="subject">The message subject line</param>
+            <param name="body">The message body</param>
+            <param name="headers">A collection of additional mail headers to send with the message</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginSendMessage(PostmarkDotNet.PostmarkMessage)">
+            <summary>
+            Sends a message through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="message">A prepared message instance</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginSendMessage(PostmarkDotNet.TemplatedPostmarkMessage)">
+            <summary>
+            Send a templated message through the Postmark API.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginSendMessages(System.Collections.Generic.IEnumerable{PostmarkDotNet.PostmarkMessage})">
+            <summary>
+            Sends a batch of up to messages through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginSendMessages(PostmarkDotNet.PostmarkMessage[])">
+            <summary>
+            Sends a batch of up to messages through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndSendMessages(System.IAsyncResult)">
+            <summary>
+             Completes an asynchronous request to send a message batch.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndSendMessage(System.IAsyncResult)">
+            <summary>
+             Completes an asynchronous request to send a message.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetDeliveryStats">
+            <summary>
+            Retrieves the bounce-related <see cref="T:PostmarkDotNet.PostmarkDeliveryStats"/> results for the
+            associated mail server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetDeliveryStats(System.IAsyncResult)">
+            <summary>
+            Completes a request for the bounce-related <see cref="T:PostmarkDotNet.PostmarkDeliveryStats"/> results for the
+            associated mail server.
+            </summary>
+            <param name="asyncResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounces(System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetBounces(System.IAsyncResult)">
+             <summary>
+             Completes an asynchronous request for a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+             with a sum total of bounces recorded by the server, based on filter parameters.
+             </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+             <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounce(System.String)">
+            <summary>
+            Retrieves a single <see cref="T:PostmarkDotNet.PostmarkBounce"/> based on a specified ID.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetBounce(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for a single <see cref="T:PostmarkDotNet.PostmarkBounce"/> based on a specified ID.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounceTags">
+            <summary>
+            Returns a list of tags used for the current server.
+            </summary>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetBounceTags(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for a list of tags used for the current server.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetBounceDump(System.String)">
+            <summary>
+            Returns the raw source of the bounce we accepted. 
+            If Postmark does not have a dump for that bounce, it will return an empty string.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetBounceDump(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for the raw source of the bounce we accepted.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginActivateBounce(System.String)">
+            <summary>
+            Activates a deactivated bounce.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndActivateBounce(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a deactivated bounce.
+            </summary>
+            <param name="asyncResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.Int32,System.String,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.Int32,System.Int32,System.String)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetOutboundMessages(System.IAsyncResult)">
+             <summary>
+             Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.PostmarkOutboundMessageList"/> instances along
+             with a sum total of messages recorded by the server, based on filter parameters.
+             </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+             <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a sent message including all fields, raw body, attachment names, etc
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetOutboundMessageDetail(System.IAsyncResult)">
+             <summary>
+             Get the full details of a sent message including all fields, raw body, attachment names, etc
+             </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+             <returns>OutboundMessageDetail</returns>
+             <seealso href="http://developer.postmarkapp.com/developer-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetOutboundMessageDump(System.String)">
+            <summary>
+            Get the original raw message dump of on outbound message including all SMTP headers and data.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>MessageDump</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetOutboundMessageDump(System.IAsyncResult)">
+             <summary>
+             Get the original raw message dump of on outbound message including all SMTP headers and data.
+             </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+             <returns>MessageDump</returns>
+             <seealso href="http://developer.postmarkapp.com/developer-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetInboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetInboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetInboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetInboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetInboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="mailboxhash">Filter by mailbox hash that was parsed from the inbound message.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetInboundMessages(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.PostmarkInboundMessageList"/> instances along
+            with a sum total of messages recorded by the server, based on filter parameters.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>PostmarkInboundMessageList</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-inbound-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.BeginGetInboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a processed inbound message including all fields, attachment names, etc.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetInboundMessages call.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.EndGetInboundMessageDetail(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.InboundMessageDetail"/> instance
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>InboundMessageDetail</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-inbound-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.SendMessage(System.String,System.String,System.String,System.String)">
+            <summary>
+            Sends a message through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction.</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.SendMessage(System.String,System.String,System.String,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Sends a message through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <param name="headers">A collection of additional mail headers to send with the message.</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction.</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.SendMessage(PostmarkDotNet.PostmarkMessage)">
+            <summary>
+            Sends a message through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="message">A prepared message instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.SendMessage(PostmarkDotNet.TemplatedPostmarkMessage)">
+            <summary>
+            Send an email using a template associated with your Server.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.SendMessages(PostmarkDotNet.PostmarkMessage[])">
+            <summary>
+            Sends a batch of up to 500 messages through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.SendMessages(System.Collections.Generic.IEnumerable{PostmarkDotNet.PostmarkMessage})">
+            <summary>
+            Sends a batch of up to messages through the Postmark API.
+            All email addresses must be valid, and the sender must be
+            a valid sender signature according to Postmark. To obtain a valid
+            sender signature, log in to Postmark and navigate to:
+            http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetDeliveryStats">
+            <summary>
+            Retrieves the bounce-related <see cref="T:PostmarkDotNet.PostmarkDeliveryStats"/> results for the
+            associated mail server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounces(System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounce(System.String)">
+            <summary>
+            Retrieves a single <see cref="T:PostmarkDotNet.PostmarkBounce"/> based on a specified ID.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounceTags">
+            <summary>
+            Returns a list of tags used for the current server.
+            </summary>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetBounceDump(System.String)">
+            <summary>
+            Returns the raw source of the bounce we accepted. 
+            If Postmark does not have a dump for that bounce, it will return an empty string.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.ActivateBounce(System.String)">
+            <summary>
+            Activates a deactivated bounce.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.Int32,System.String,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.Int32,System.Int32,System.String)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a sent message including all fields, raw body, attachment names, etc
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>OutboundMessageDetail</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetOutboundMessageDump(System.String)">
+            <summary>
+            Get the original raw message dump of on outbound message including all SMTP headers and data.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>MessageDump</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetInboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetInboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetInboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetInboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetInboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="mailboxhash">Filter by mailbox hash that was parsed from the inbound message.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.IPostmarkClient.GetInboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a processed inbound message including all fields, attachment names, etc.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetInboundMessages call.</param>
+            <returns>InboundMessageDetail</returns>
+        </member>
+        <member name="P:PostmarkDotNet.IPostmarkClient.Authority">
+            <summary>
+              Override the REST API endpoint by specifying your own address, if necessary.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.IPostmarkClient.ServerToken">
+            <summary>
+            Gets the server token issued with your Postmark email server configuration.
+            </summary>
+            <value>The server token.</value>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkBounce">
+            <summary>
+              Represents an email bounce logged by Postmark.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.ID">
+            <summary>
+              The bounce ID.
+              This is used for other API calls that require the ID.
+            </summary>
+            <value>The ID</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Type">
+            <summary>
+              The <see cref="T:PostmarkDotNet.PostmarkBounceType"/> for this bounce.
+            </summary>
+            <value>The type</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Details">
+            <summary>
+              The bounce details set by the server.
+            </summary>
+            <value>The details</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Email">
+            <summary>
+              The email recipient that initiated the bounce.
+            </summary>
+            <value>The email</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.BouncedAt">
+            <summary>
+              The time the bounce occurred.
+            </summary>
+            <value>The time of the bounce</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.DumpAvailable">
+            <summary>
+              A value indicating whether a raw STMP dump is available.
+            </summary>
+            <value><c>true</c> if a dump is available; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Inactive">
+            <summary>
+              A value indicating whether this <see cref="T:PostmarkDotNet.PostmarkBounce"/> is inactive.
+            </summary>
+            <value><c>true</c> if inactive; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.CanActivate">
+            <summary>
+              A value indicating whether this bounce can be activated.
+            </summary>
+            <value>
+              <c>true</c> if this instance can be activated; otherwise, <c>false</c>
+            </value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.MessageID">
+            <summary>
+              The MessageID of the email that caused the bounce, can be Empty.
+            </summary>
+            <value>
+              The original email message ID
+            </value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Description">
+            <summary>
+              The detailed information about the cause of the bounce 
+            </summary>
+            <value>The description of the bounce</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Tag">
+            <summary>
+            The tags users add to emails
+            </summary>
+            <value>The specific tag string</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Subject">
+            <summary>
+            Subject of the message sent
+            </summary>
+            <value>Subject text of the original message</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.From">
+            <summary>
+            The original sender of the email, if available.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.ServerID">
+            <summary>
+            The ID of the Server that sent the original message.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounce.Name">
+            <summary>
+            The Bounce Type "Friendly Name"
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkBounceActivation">
+            <summary>
+              Represents the results of a request to activate a <see cref="T:PostmarkDotNet.PostmarkBounce"/>.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounceActivation.Message">
+            <summary>
+              The server message accompanying the activation request.
+            </summary>
+            <value>The message.</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounceActivation.Bounce">
+            <summary>
+              The activated bounce.
+            </summary>
+            <value>The activated bounce.</value>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkBounceDump">
+            <summary>
+             Represents the raw SMTP details of a particular bounce.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounceDump.Body">
+            <summary>
+              The body of the bounce dump.
+            </summary>
+            <value>The body.</value>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkBounces">
+            <summary>
+              Represents a partial result of bounces obtained from a search.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounces.TotalCount">
+            <summary>
+              The total number of bounces logged by the server.
+              Use this number to base paging parameters in subsequent
+              calls to retrieve bounces.
+            </summary>
+            <value>The total count.</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounces.Bounces">
+            <summary>
+              The bounces returned in this query result.
+            </summary>
+            <value>The bounces.</value>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkBounceSummary">
+            <summary>
+              Represents an aggregate view of bounces.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounceSummary.Type">
+            <summary>
+              An summary for a <see cref="T:PostmarkDotNet.PostmarkBounceType"/>.
+            </summary>
+            <value>The type.</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounceSummary.Name">
+            <summary>
+              The name of the summary.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkBounceSummary.Count">
+            <summary>
+              The number of results in the summary.
+            </summary>
+            <value>The count.</value>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkBounceType">
+            <summary>
+            Represents the type of Bounce.
+            More details:
+            - http://developer.postmarkapp.com/developer-api-bounce.html#bounce-types
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.HardBounce">
+            <summary>
+            Hard bounce — The server was unable to deliver your message (ex: unknown user, mailbox not found).
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.Transient">
+            <summary>
+            Message delayed — The server could not temporarily deliver your message (ex: Message is delayed due to network troubles).
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.Unsubscribe">
+            <summary>
+            Unsubscribe request — Unsubscribe or Remove request.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.Subscribe">
+            <summary>
+            Subscribe request — Subscribe request from someone wanting to get added to the mailing list.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.AutoResponder">
+            <summary>
+            Auto responder — Automatic email responder (ex: "Out of Office" or "On Vacation").
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.AddressChange">
+            <summary>
+            Address change — The recipient has requested an address change.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.DnsError">
+            <summary>
+            DNS error — A temporary DNS error.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.SpamNotification">
+            <summary>
+            Spam notification — The message was delivered, but was either blocked by the user, or classified as spam, bulk mail, or had rejected content.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.OpenRelayTest">
+            <summary>
+            Open relay test — The NDR is actually a test email message to see if the mail server is an open relay.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.Unknown">
+            <summary>
+            Unknown — Unable to classify the NDR.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.SoftBounce">
+            <summary>
+            Soft bounce — Unable to temporarily deliver message (i.e. mailbox full, account disabled, exceeds quota, out of disk space).
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.VirusNotification">
+            <summary>
+            Virus notification — The bounce is actually a virus notification warning about a virus/code infected message.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.ChallengeVerification">
+            <summary>
+            Spam challenge verification — The bounce is a challenge asking for verification you actually sent the email. Typcial challenges are made by Spam Arrest, or MailFrontier Matador.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.BadEmailAddress">
+            <summary>
+            Invalid email address — The address is not a valid email address.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.SpamComplaint">
+            <summary>
+            Spam complaint — The subscriber explicitly marked this message as spam.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.ManuallyDeactivated">
+            <summary>
+            Manually deactivated — The email was manually deactivated.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.Unconfirmed">
+            <summary>
+            Registration not confirmed — The subscriber has not clicked on the confirmation link upon registration or import.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.Blocked">
+            <summary>
+            ISP block — Blocked from this ISP due to content or blacklisting.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.SMTPApiError">
+            <summary>
+            SMTP API error — An error occurred while accepting an email through the SMTP API.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.InboundError">
+            <summary>
+            Processing failed — Unable to deliver inbound message to destination inbound hook.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.DMARCPolicy">
+            <summary>
+            DMARC Policy — Email rejected due DMARC Policy.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkBounceType.TemplateRenderingFailed">
+            <summary>
+            Template rendering failed — An error occurred while attempting to render your template.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkDeliveryStats">
+            <summary>
+              Represents delivery statistics at a particular time.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkDeliveryStats.InactiveMails">
+            <summary>
+              The total number of inactive or bounced mails delivered.
+            </summary>
+            <value>The inactive mails.</value>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkDeliveryStats.Bounces">
+            <summary>
+              The list of summary results for the bounces in this report.
+            </summary>
+            <value>The bounces.</value>
+        </member>
+        <member name="T:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage">
+            <summary>
+            Representation of the payload of the delivery webhook
+            - http://developer.postmarkapp.com/developer-delivery-webhook.html
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage.ServerID">
+            <summary>
+            The associated server's ID.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage.MessageID">
+            <summary>
+            The associated message's ID.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage.Recipient">
+            <summary>
+            The email address of the recipient.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage.Tag">
+            <summary>
+            The delivery tag that was used when the message was sent.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage.DeliveredAt">
+            <summary>
+            The timestamp of when email was delivered.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkDeliveryWebhookMessage.Details">
+            <summary>
+            The response line received from the destination email server.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage">
+            <summary>
+            Represents the model of a Postmark Inbound message post
+            More details http://developer.postmarkapp.com/developer-inbound-parse.html
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.From">
+            <summary>
+            The Address the Inbound message is originally from
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.FromName">
+            <summary>
+            The name from the Address the Inbound message is originally from
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.FromFull">
+            <summary>
+            The fully populated From address in Name/Email format
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.To">
+            <summary>
+            The Address the inbound message was sent to
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.ToFull">
+            <summary>
+            The fully populated To address in Name/Email format
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Cc">
+            <summary>
+            See also To, From, Bcc
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.CcFull">
+            <summary>
+            See also ToFull, FromFull, BccFull
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Bcc">
+            <summary>
+            See also To, From, Cc
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.BccFull">
+            <summary>
+            See also ToFull, FromFull, CcFull
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.ReplyTo">
+            <summary>
+            The ReplyTo address if available from the Inbound message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Subject">
+            <summary>
+            The subject of the Inbound message email
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.MessageID">
+            <summary>
+            The Postmark message ID X-Postmark-MessageID
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.OriginalRecipient">
+            <summary>
+            The original recipient the messages was addressed to
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Date">
+            <summary>
+            The received time of the message by Postmark
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.MailboxHash">
+            <summary>
+            The Mailbox hash, if available parsed from a message like
+            http://developer.postmarkapp.com/developer-inbound-parse.html#mailboxhash
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.TextBody">
+            <summary>
+            The text part of the message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.HtmlBody">
+            <summary>
+            Teh html part of the message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Tag">
+            <summary>
+            Tags, if any, included in the message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.StrippedTextReply">
+            <summary>
+            The stripped text for replies for inbound messages
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Headers">
+            <summary>
+            A list of headers from the message, fully parsed
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkInboundWebhookMessage.Attachments">
+            <summary>
+            A list of Attachments from the message, fully parsed as Attachment classes
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkInboundMessage">
+            <summary>
+            Represents the model of a Postmark Inbound message post
+            More details http://developer.postmarkapp.com/developer-inbound-parse.html
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.From">
+            <summary>
+            The Address the Inbound message is originally from
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.FromFull">
+            <summary>
+            The fully populated From address in Name/Email format
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.FromName">
+            <summary>
+            The name from the Address the Inbound message is originally from
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.To">
+            <summary>
+            The Address the inbound message was sent to
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.ToFull">
+            <summary>
+            The fully populated To address in Name/Email format
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Cc">
+            <summary>
+            See also To, From, Bcc
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.CcFull">
+            <summary>
+            See also ToFull, FromFull, BccFull
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Bcc">
+            <summary>
+            See also To, From, Cc
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.BccFull">
+            <summary>
+            See also ToFull, FromFull, CcFull
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.ReplyTo">
+            <summary>
+            The ReplyTo address if available from the Inbound message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Subject">
+            <summary>
+            The subject of the Inbound message email
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.MessageID">
+            <summary>
+            The Postmark message ID X-Postmark-MessageID
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.OriginalRecipient">
+            <summary>
+            The original recipient the messages was addressed to
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Date">
+            <summary>
+            The received time of the message by Postmark
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.MailboxHash">
+            <summary>
+            The Mailbox hash, if available parsed from a message like
+            http://developer.postmarkapp.com/developer-inbound-parse.html#mailboxhash
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.TextBody">
+            <summary>
+            The text part of the message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.HtmlBody">
+            <summary>
+            Teh html part of the message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Tag">
+            <summary>
+            Tags, if any, included in the message
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.StrippedTextReply">
+            <summary>
+            The stripped text for replies for inbound messages
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Headers">
+            <summary>
+            A list of headers from the message, fully parsed
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkInboundMessage.Attachments">
+            <summary>
+            A list of Attachments from the message, fully parsed as Attachment classes
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Attachment">
+            <summary>
+            A message attachment, including Inbound image attachments
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkMessageAttachment">
+            <summary>
+              An optional file attachment that accompanies a <see cref="T:PostmarkDotNet.PostmarkMessage"/>.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageAttachment.Name">
+            <summary>
+              The name of this attachment.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageAttachment.Content">
+            <summary>
+              The raw, Base64 encoded content in this attachment.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageAttachment.ContentType">
+            <summary>
+              The content type for this attachment.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessageAttachment.ContentId">
+            <summary>
+            The ContentID (CID) for inline image attachments
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Model.PostmarkOpensList">
+            <summary>
+            A paged list of message opens information.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.FirstOpen">
+            <summary>
+            Indicates that this is the first open for the associated message.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.MessageID">
+            <summary>
+            The associated message's ID.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.UserAgent">
+            <summary>
+            The original user-agent header provided by the recipient's email client.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.Geo">
+            <summary>
+            Any known geo data for the this Open.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.Platform">
+            <summary>
+            What was the platform used to open the message?
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.ReadSeconds">
+            <summary>
+            The reading time.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.Client">
+            <summary>
+            Information about the opening client application, extracted from the UserAgent string.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOpen.OS">
+            <summary>
+            Information about the opening client operating system, extracted from the UserAgent string.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Webhooks.PostmarkOpenWebhookMessage">
+            <summary>
+            Representation of the payload of the open tracking webhook
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkOpenWebhookMessage.ReceivedAt">
+            <summary>
+              The time the open was received by the Postmark servers.
+            </summary>
+            <value>The time the open was received</value>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkOpenWebhookMessage.Tag">
+            <summary>
+            The tags users add to emails
+            </summary>
+            <value>The specific tag string</value>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkOpenWebhookMessage.Recipient">
+            <summary>
+            The email address of the recipient who opened the email.
+            </summary>
+            <value>Email address of the recipient</value>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundClientStats.Days">
+            <summary>
+            Outbound message counts, broken out by date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundClientStats.ClientCounts">
+            <summary>
+            The number of messages sent where 
+            the key is the client name, and the value is the
+            number sent for that client.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundClientStats.DatedClientCount.Date">
+            <summary>
+            The date for these stats, with date resolution.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundClientStats.DatedClientCount.ClientCounts">
+            <summary>
+            The number of messages sent on this date where 
+            the key is the client name, and the value is the
+            number sent for that client.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSpamComplaintStats.Days">
+            <summary>
+            Outbound message counts, broken out by date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSpamComplaintStats.SpamComplaint">
+            <summary>
+            Indicates total number of spam complaints.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSpamComplaintStats.DatedSpamComplaintCount.Date">
+            <summary>
+            The date for these stats, with date resolution.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSpamComplaintStats.DatedSpamComplaintCount.SpamComplaint">
+            <summary>
+            Indicates total number of spam complaints for this date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundOpenStats.Days">
+            <summary>
+            Outbound message counts, broken out by date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundOpenStats.Opens">
+            <summary>
+            The number of open events.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundOpenStats.Unique">
+            <summary>
+            The number of unique open events.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundOpenStats.DatedOpenCount.Date">
+            <summary>
+            The date for these stats, with date resolution.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundOpenStats.DatedOpenCount.Opens">
+            <summary>
+            The number of messages opened on this date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundOpenStats.DatedOpenCount.Unique">
+            <summary>
+            The number of unique open events for this date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundTrackedStats.Days">
+            <summary>
+            Outbound message counts, broken out by date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundTrackedStats.Tracked">
+            <summary>
+            The total number of messages tracked for the associated time period.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundTrackedStats.DatedTrackedCount.Date">
+            <summary>
+            The date for these stats, with date resolution.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundTrackedStats.DatedTrackedCount.Tracked">
+            <summary>
+            The number of messages tracked on this date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSentStats.Days">
+            <summary>
+            Outbound message counts, broken out by date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSentStats.Sent">
+            <summary>
+            The total number of messages sent for the associated time period.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSentStats.DatedSendCount.Date">
+            <summary>
+            The date for these stats, with date resolution.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundSentStats.DatedSendCount.Sent">
+            <summary>
+            The number of messages sent on this date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundBounceStats.Days">
+            <summary>
+            Outbound message counts, broken out by date.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkOutboundBounceStats.DatedBounceCount.Date">
+            <summary>
+            The date for these stats, with date resolution.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Model.PostmarkServer">
+            <summary>
+            Represents a virtual mail server from which mail 
+            is sent and received.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.ID">
+            <summary>
+            Name of server
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.Name">
+            <summary>
+            Name of server
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.ApiTokens">
+            <summary>
+            List of API tokens associated with server.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.ServerLink">
+            <summary>
+            URL to your server overview page in Postmark.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.Color">
+            <summary>
+            Color of the server in the rack screen.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.SmtpApiActivated">
+            <summary>
+            Specifies whether or not SMTP is enabled on this server.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.RawEmailEnabled">
+            <summary>
+            Allow raw email to be sent with inbound.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.InboundAddress">
+            <summary>
+            Inbound email address
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.InboundHookUrl">
+            <summary>
+            URL to POST to everytime an inbound event occurs.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.BounceHookUrl">
+            <summary>
+            URL to POST to everytime a bounce event occurs.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.OpenHookUrl">
+            <summary>
+            URL to POST to everytime an open event occurs.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.PostFirstOpenOnly">
+            <summary>
+            If set to true, only the first open by a particular recipient will initiate the open webhook. Any subsequent opens of the same email by the same recipient will not initiate the webhook.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.TrackOpens">
+            <summary>
+            Indicates if all emails being sent through this server have open tracking enabled.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.TrackLinks">
+            <summary>
+            The link tracking setting for this server.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.InboundDomain">
+            <summary>
+            Inbound domain for MX setup
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.InboundHash">
+            <summary>
+            The inbound hash of your inbound email address.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Model.PostmarkServer.InboundSpamThreshold">
+            <summary>
+            The maximum spam score for an inbound message before it's blocked.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Model.ServerColors">
+            <summary>
+            The colors shown by the Postmark server interface.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Webhooks.PostmarkBounceWebhookMessage">
+            <summary>
+            Representation of the payload of the bounce webhook
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkBounceWebhookMessage.TypeCode">
+            <summary>
+              The int based type code for this bounce.
+            </summary>
+            <value>The type code</value>
+        </member>
+        <member name="P:PostmarkDotNet.Webhooks.PostmarkBounceWebhookMessage.Name">
+            <summary>
+              The friendly name for this bounce.
+            </summary>
+            <value>The friendly name of the bounce</value>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkClient">
+            <summary>
+              A client for the Postmark application. 
+              Use this client in place of an <see cref="T:System.Net.Mail.SmtpClient"/> to send messages
+              through this service.
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginSendMessage(System.String,System.String,System.String,System.String)">
+            <summary>
+              Sends a message through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction.</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginSendMessage(System.String,System.String,System.String,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+              Sends a message through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender</param>
+            <param name="to">An email address for a recipient</param>
+            <param name="subject">The message subject line</param>
+            <param name="body">The message body</param>
+            <param name="headers">A collection of additional mail headers to send with the message</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginSendMessage(PostmarkDotNet.PostmarkMessage)">
+            <summary>
+              Sends a message through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name = "message">A prepared message instance</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndSendMessage(System.IAsyncResult)">
+            <summary>
+             Completes an asynchronous request to send a message.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginSendMessages(System.Collections.Generic.IEnumerable{PostmarkDotNet.PostmarkMessage})">
+            <summary>
+              Sends a batch of up to messages through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginSendMessage(PostmarkDotNet.TemplatedPostmarkMessage)">
+            <summary>
+            Send an email using a template associated with your Server.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginSendMessages(PostmarkDotNet.PostmarkMessage[])">
+            <summary>
+              Sends a batch of up to messages through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndSendMessages(System.IAsyncResult)">
+            <summary>
+             Completes an asynchronous request to send a message batch.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetDeliveryStats">
+            <summary>
+            Retrieves the bounce-related <see cref="T:PostmarkDotNet.PostmarkDeliveryStats"/> results for the
+            associated mail server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetDeliveryStats(System.IAsyncResult)">
+            <summary>
+            Completes a request for the bounce-related <see cref="T:PostmarkDotNet.PostmarkDeliveryStats"/> results for the
+            associated mail server.
+            </summary>
+            <param name="asyncResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounces(System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetBounces(System.IAsyncResult)">
+             <summary>
+               Completes an asynchronous request for a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+               with a sum total of bounces recorded by the server, based on filter parameters.
+             </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+             <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounce(System.String)">
+            <summary>
+              Retrieves a single <see cref="T:PostmarkDotNet.PostmarkBounce"/> based on a specified ID.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetBounce(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for a single <see cref="T:PostmarkDotNet.PostmarkBounce"/> based on a specified ID.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounceTags">
+            <summary>
+              Returns a list of tags used for the current server.
+            </summary>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetBounceTags(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for a list of tags used for the current server.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetBounceDump(System.String)">
+            <summary>
+              Returns the raw source of the bounce we accepted. 
+              If Postmark does not have a dump for that bounce, it will return an empty string.
+            </summary>
+            <param name = "bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetBounceDump(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous request for the raw source of the bounce we accepted.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginActivateBounce(System.String)">
+            <summary>
+              Activates a deactivated bounce.
+            </summary>
+            <param name = "bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndActivateBounce(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a deactivated bounce.
+            </summary>
+            <param name="asyncResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.Int32,System.String,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.Int32,System.Int32,System.String)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessagesImpl(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Implementation called to do the actual messages call and return a <see cref="T:PostmarkDotNet.Model.PostmarkOutboundMessageList"/>
+            </summary>s
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetOutboundMessages(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.PostmarkOutboundMessageList"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>PostmarkOutboundMessageList</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a sent message including all fields, raw body, attachment names, etc
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetOutboundMessageDetail(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.OutboundMessageDetail"/> instance.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>OutboundMessageDetail</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetOutboundMessageDump(System.String)">
+            <summary>
+            Get the original raw message dump of on outbound message including all SMTP headers and data.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetOutboundMessageDump(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.MessageDump"/> instance.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>MessageDump</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="mailboxhash">Filter by mailbox hash that was parsed from the inbound message.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessagesImpl(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Implementation to get Inbound messages for the public search APIs
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetInboundMessages(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.PostmarkOutboundMessageList"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>PostmarkInboundMessageList</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-inbound-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.BeginGetInboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a processed inbound message including all fields, attachment names, etc.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetInboundMessages call.</param>
+            <returns>IAsyncResult</returns>
+            <seealso href = "http://developer.postmarkapp.com/developer-inbound-messages.html" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.EndGetInboundMessageDetail(System.IAsyncResult)">
+            <summary>
+              Completes an asynchronous request for a <see cref="T:PostmarkDotNet.Model.InboundMessageDetail"/> instance.
+            </summary>
+            <param name="asyncResult">An <see cref="T:System.IAsyncResult"/> for the desired response</param>
+            <returns>InboundMessageDetail</returns>
+            <seealso href="http://developer.postmarkapp.com/developer-inbound-messages.html"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.#ctor(System.String)">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkClient"/> class.
+              If you do not have a server token you can request one by signing up to
+              use Postmark: http://postmarkapp.com.
+            </summary>
+            <param name="serverToken">The server token.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.#ctor(System.String,System.Int32)">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkClient"/> class.
+              If you do not have a server token you can request one by signing up to
+              use Postmark: http://postmarkapp.com.
+            </summary>
+            <param name="serverToken">The server token.</param>
+            <param name="timeout">Time to wait for the API in seconds.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkClient"/> class.
+            If you do not have a server token you can request one by signing up to
+            use Postmark: http://postmarkapp.com.
+            Extra signature to override https
+            </summary>
+            <param name="serverToken">You can get a server token by signing up at http://www.postmarkapp.com</param>
+            <param name="noSSL">Skip https usage</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.SendMessage(System.String,System.String,System.String,System.String)">
+            <summary>
+              Sends a message through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction.</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.SendMessage(System.String,System.String,System.String,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+              Sends a message through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <param name="headers">A collection of additional mail headers to send with the message.</param>
+            <returns>A <see cref="T:PostmarkDotNet.PostmarkResponse"/> with details about the transaction.</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.SendMessage(PostmarkDotNet.PostmarkMessage)">
+            <summary>
+              Sends a message through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name = "message">A prepared message instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.SendMessage(PostmarkDotNet.TemplatedPostmarkMessage)">
+            <summary>
+            Send an email using a template associated with your Server.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.SendMessages(PostmarkDotNet.PostmarkMessage[])">
+            <summary>
+              Sends a batch of messages through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.SendMessages(System.Collections.Generic.IEnumerable{PostmarkDotNet.PostmarkMessage})">
+            <summary>
+              Sends a batch of messages through the Postmark API.
+              All email addresses must be valid, and the sender must be
+              a valid sender signature according to Postmark. To obtain a valid
+              sender signature, log in to Postmark and navigate to:
+              http://postmarkapp.com/signatures.
+            </summary>
+            <param name="messages">A prepared message batch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetDeliveryStats">
+            <summary>
+              Retrieves the bounce-related <see cref="T:PostmarkDotNet.PostmarkDeliveryStats"/> results for the
+              associated mail server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(System.Nullable{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="tag">Filters on the bounce tag</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(PostmarkDotNet.PostmarkBounceType,System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+              Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+              with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="type">The type of bounces to filter on</param>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounces(System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a collection of <see cref="T:PostmarkDotNet.PostmarkBounce"/> instances along
+            with a sum total of bounces recorded by the server, based on filter parameters.
+            </summary>
+            <param name="inactive">Whether to return only inactive or active bounces; use null to return all bounces</param>
+            <param name="emailFilter">Filters based on whether the filter value is contained in the bounce source's email</param>
+            <param name="offset">The page offset for the returned results; mandatory</param>
+            <param name="count">The number of results to return by the page offset; mandatory.</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounce(System.String)">
+            <summary>
+              Retrieves a single <see cref="T:PostmarkDotNet.PostmarkBounce"/> based on a specified ID.
+            </summary>
+            <param name="bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href="http://developer.postmarkapp.com/bounces"/>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounceTags">
+            <summary>
+              Returns a list of tags used for the current server.
+            </summary>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetBounceDump(System.String)">
+            <summary>
+              Returns the raw source of the bounce we accepted. 
+              If Postmark does not have a dump for that bounce, it will return an empty string.
+            </summary>
+            <param name = "bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.ActivateBounce(System.String)">
+            <summary>
+              Activates a deactivated bounce.
+            </summary>
+            <param name = "bounceId">The bounce ID</param>
+            <returns></returns>
+            <seealso href = "http://developer.postmarkapp.com/bounces" />
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.Int32,System.String,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.Int32,System.Int32,System.String)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Outbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="tag">Filter by a tag used for the message (messages sent directly through the API only)</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkOutboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessagesImpl(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Implementation called to do the actual messages call and return a <see cref="T:PostmarkDotNet.Model.PostmarkOutboundMessageList"/>
+            </summary>s
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a sent message including all fields, raw body, attachment names, etc
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>OutboundMessageDetail</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetOutboundMessageDump(System.String)">
+            <summary>
+            Get the original raw message dump of on outbound message including all SMTP headers and data.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetOutboundMessages call.</param>
+            <returns>MessageDump</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessages(System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessages(System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessages(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessages(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessages(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Return a listing of Inbound sent messages using the filters supported by the API.
+            </summary>
+            <param name="recipient">Filter by the recipient(s) of the message.</param>
+            <param name="fromemail">Filter by the email address the message is sent from.</param>
+            <param name="subject">Filter by message subject.</param>
+            <param name="mailboxhash">Filter by mailbox hash that was parsed from the inbound message.</param>
+            <param name="count">Number of messages to return per call. (required)</param>
+            <param name="offset">Number of messages to offset/page per call. (required)</param>
+            <returns>PostmarkInboundMessageList</returns>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessagesImpl(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Implementation to get Inbound messages for the public search APIs
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkClient.GetInboundMessageDetail(System.String)">
+            <summary>
+            Get the full details of a processed inbound message including all fields, attachment names, etc.
+            </summary>
+            <param name="messageID">The MessageID of a message which can be optained either from the initial API send call or a GetInboundMessages call.</param>
+            <returns>InboundMessageDetail</returns>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkClient.Authority">
+            <summary>
+              Override the REST API endpoint by specifying your own address, if necessary.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkClient.ServerToken">
+            <summary>
+              Gets the server token issued with your Postmark email server configuration.
+            </summary>
+            <value>The server token.</value>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessage.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkMessage"/> class.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessage.#ctor(System.String,System.String,System.String,System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkMessage"/> class.
+            </summary>
+            <param name="from">An email address for a sender.</param>
+            <param name="to">An email address for a recipient.</param>
+            <param name="subject">The message subject line.</param>
+            <param name="body">The message body.</param>
+            <param name="headers">A collection of additional mail headers to send with the message.</param>
+        </member>
+        <member name="M:PostmarkDotNet.PostmarkMessage.#ctor(System.Net.Mail.MailMessage)">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.PostmarkMessage"/> class
+              based on an existing <see cref="T:System.Net.Mail.MailMessage"/> instance. 
+            
+              Only the first recipient of the message is added to the <see cref="T:PostmarkDotNet.PostmarkMessage"/>
+              instance.
+            </summary>
+            <param name="message">The existing message.</param>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessage.Subject">
+            <summary>
+              The message subject line.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessage.HtmlBody">
+            <summary>
+              The message body, if the message contains
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkMessage.TextBody">
+            <summary>
+              The message body, if the message is plain text.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkResponse">
+            <summary>
+              A response from the Postmark API after a request sent with <see cref="T:PostmarkDotNet.PostmarkClient"/>.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkResponse.MessageID">
+            <summary>
+              The Message ID returned from Postmark.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkResponse.Status">
+            <summary>
+              The status outcome of the response.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkResponse.Message">
+            <summary>
+              The message from the API.  
+              In the event of an error, this message may contain helpful text.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkResponse.SubmittedAt">
+            <summary>
+              The time the request was received by Postmark.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkResponse.To">
+            <summary>
+              The recipient of the submitted request.
+            </summary>
+        </member>
+        <member name="P:PostmarkDotNet.PostmarkResponse.ErrorCode">
+            <summary>
+              The error code returned from Postmark.
+              This does not map to HTTP status codes.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.PostmarkStatus">
+            <summary>
+              A list of possible status outcomes associated with a <see cref="T:PostmarkDotNet.PostmarkResponse"/>.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkStatus.Unknown">
+            <summary>
+              The response is unknown to this version of the Postmark.NET API.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkStatus.Success">
+            <summary>
+              The request was successful.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkStatus.UserError">
+            <summary>
+              The request was unsuccessful because of a user error.
+            </summary>
+        </member>
+        <member name="F:PostmarkDotNet.PostmarkStatus.ServerError">
+            <summary>
+              The request was unsuccessful because of a server error.
+            </summary>
+        </member>
+        <member name="T:PostmarkDotNet.Validation.ValidationException">
+            <summary>
+              An exception thrown when request inputs fail an <see cref="!:ISpecification"/> or other test.
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.Validation.ValidationException.#ctor">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.Validation.ValidationException"/> class.
+            </summary>
+        </member>
+        <member name="M:PostmarkDotNet.Validation.ValidationException.#ctor(System.String)">
+            <summary>
+              Initializes a new instance of the <see cref="T:PostmarkDotNet.Validation.ValidationException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+    </members>
+</doc>

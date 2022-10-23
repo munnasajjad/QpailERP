@@ -1,0 +1,238 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Layout.master.cs" Inherits="Oxford.app.Layout" %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head runat="server">
+    <meta charset="utf-8">
+    <title>Pathshala</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../css/app.v1.css">
+    <link rel="stylesheet" href="../css/font.css" cache="false">
+    <link href="../css/Custom.css" rel="stylesheet" type="text/css" />
+    <script src="../js/jquery-latest.min.js"></script>
+    <!--[if lt IE 9]> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/html5.js" cache="false"></script> <script src="js/ie/fix.js" cache="false"></script> <![endif]-->
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+    <section class="hbox stretch">
+
+        <!-- .aside -->
+        <aside class="bg-primary aside-sm" id="nav">
+            <section class="vbox">
+                <header class="dker nav-bar"><a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="body"><i class="icon-reorder"></i></a><a href="#" class="nav-brand" data-toggle="fullscreen">Pathshala</a> <a class="btn btn-link visible-xs" data-toggle="class:show" data-target=".nav-user"><i class="icon-comment-alt"></i></a></header>
+                <footer class="footer bg-gradient hidden-xs">
+                    
+                    <%--<asp:LinkButton ID="lbLogOff" runat="server" CssClass="btn btn-sm btn-link m-r-n-xs pull-right" OnClick="lbLogOff_OnClick"><i class="icon-off"></i></asp:LinkButton>--%>
+                    <a href="Logout.aspx" class="btn btn-sm btn-link m-r-n-xs pull-right"><i class="icon-off"></i></a>
+                    <a href="#nav" data-toggle="class:nav-vertical" class="btn btn-sm btn-link m-l-n-sm"><i class="icon-reorder"></i></a>
+                </footer>
+                <section>
+                    <!-- user -->
+                    <div class="bg-success nav-user hidden-xs pos-rlt">
+                        <div class="nav-avatar pos-rlt">
+                            <a href="#" class="thumb-sm avatar animated rollIn" data-toggle="dropdown">
+                                <img src="images/avatar.jpg" alt="" class="">
+                                <span class="caret caret-white"></span></a>
+                            <ul class="dropdown-menu m-t-sm animated fadeInLeft">
+                                <span class="arrow top"></span>
+                                <li><a href="ChangePass.aspx">Change Password</a></li>
+                                <li class="divider"></li>
+                                <li><a href="Login-History.aspx">Login History</a></li>
+                                <li>
+                                    <asp:HyperLink ID="LinkButton1" runat="server" NavigateUrl="../Login.aspx">Logout</asp:HyperLink>
+                                </li>
+                            </ul>
+
+                            <div class="visible-xs m-t m-b">
+                                <a href="#" class="h3">Extreme Solutions</a>
+                                <p><i class="icon-map-marker"></i>Bangladesh</p>
+                            </div>
+                        </div>
+                        <div class="nav-msg">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="badge badge-white count-n">
+                                <asp:LoginName ID="LoginName1" runat="server" />
+                            </b></a>
+                            <section class="dropdown-menu m-l-sm pull-left animated fadeInRight">
+                                <div class="arrow left"></div>
+                                <section class="panel bg-white">
+                                    <header class="panel-heading"><strong>You are a super administrator</strong></header>
+                                    <div class="list-group">
+                                        <a href="//xtremebd.com" class="media list-group-item"><span class="pull-left thumb-sm">
+                                            <img src="images/logo.png" alt="Digital Pathshala 1.0" class="img-circle">
+                                        </span><span class="media-body block m-b-none">&copy; 2015 Extreme Solutions<br>
+                                            <small class="text-muted">www.xtremebd.com</small> </span></a><a href="Default.aspx" class="media list-group-item"><span class="media-body block m-b-none">Pathshala 1.0 initial release<br>
+                                                <small class="text-muted">20 Mar 2015</small> </span></a>
+                                    </div>
+                                    <footer class="panel-footer text-sm"><a href="//xtremebd.com/Contact.aspx">Support: 01817251582, 01676749390</a> </footer>
+                                </section>
+                            </section>
+                        </div>
+                    </div>
+                    <!-- / user -->
+                    <!-- nav -->
+                    <nav class="nav-primary hidden-xs">
+                        <ul class="nav">
+                                    <li><a href="Default.aspx"><i class="icon-desktop"></i><span>Dashboard</span> </a> </li>
+
+                            <li class="dropdown-submenu"><a href="#Default.aspx"><i class="icon-wrench"></i><span>Setup </span></a>
+                                <ul class="dropdown-menu"> 
+                                    <li><a href="Teachers.aspx">Teachers</a> </li>
+                                    <li><a href="ClassSetup.aspx">Class</a> </li>
+                                    <li><a href="SectionSetup.aspx">Section</a> </li>                                    
+                                    <li><a href="Coll-Group.aspx">Collection Groups</a> </li>
+                                    <li><a href="Coll-Heads.aspx">Collection Heads</a> </li>
+                                    <li><a href="Exp-Group.aspx">Expense Groups</a> </li>
+                                    <li><a href="Exp-Heads.aspx">Expense Heads</a> </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a href="Admission.aspx"><i class="icon-edit"></i><span>Academic </span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="Admission.aspx">Admission</a> </li>
+                                    <li><a href="Assign-Roll-Section.aspx">Enrolment</a> </li>
+                                    <li><a href="Search.aspx">Search</a> </li>
+                                    <li><a href="YearlyProcess.aspx">Yearly Process</a> </li>
+                                    <%--<li><a href="Assign-Roll-Section.aspx">Re-Admission</a> </li>--%>
+                                    <li><a href="ID-Card.aspx">Print ID Card</a> </li>
+                                    <li><a href="Admit-Card.aspx">Admit Card</a> </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a href="Billing.aspx"><i class="icon-print"></i><span>Accounts </span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="AssaignClassExpenses.aspx">Assaign Fees</a> </li>
+                                    <%--<li><a href="AssaignStudentExpenses.aspx">Assaign Expenses (By Student)</a> </li>  --%>                                  
+                                    <li><a href="DiscountToStudents.aspx">Assaign Discount</a> </li>                                    
+                                    <li><a href="Billing.aspx">Billing &amp; Receipt</a> </li>
+                                    <li><a href="Expense-Entry.aspx">Expenses Entry</a> </li>
+                                </ul>
+                            </li>
+                            <%--<li class="dropdown-submenu"><a href="#"><i class="icon-file-text-alt"></i><span>Accounting</span></a>
+                            <ul class="dropdown-menu">
+                                <li id="ctl00_SubAcc"><a href="SubAcc.aspx"><span class="list-icon">&nbsp;</span>Sub-Accounts</a></li>
+                                <li id="ctl00_Control"><a href="Control.aspx"><span class="list-icon">&nbsp;</span>Control Accounts</a></li>
+                                <li id="ctl00_AccountingHead"><a href="Head.aspx"><span class="list-icon">&nbsp;</span>Accounts Head Setup</a></li>
+                                <li id="ctl00_AccParticulars"><a href="Particulars.aspx"><span class="list-icon">&nbsp;</span>Particulars</a></li>
+                                <li id="ctl00_VoucherEntry"><a href="VoucherEntry.aspx"><span class="list-icon">&nbsp;</span>Voucher Entry</a></li>
+                                <li id="ctl00_VoucherApproval"><a href="VoucherApproval.aspx"><span class="list-icon">&nbsp;</span>Voucher Approval</a></li>
+                                <li id="ctl00_VoucherCancel"><a href="VoucherCancel.aspx"><span class="list-icon">&nbsp;</span>Voucher Cancel</a></li>
+                                <li id="ctl00_AccLink" class="xerp_curr"><a href="AccLink.aspx"><span class="list-icon">&nbsp;</span>Acc Linking</a></li>
+                    
+                            </ul>
+                        </li>--%>
+                            <li class="dropdown-submenu"><a href="Default.aspx"><i class="icon-book"></i><span>Library</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="AddNewBook.aspx">Add New Book</a></li>
+                                    <li><a href="BookGiven.aspx">Book Given</a></li>  
+                                    <li><a href="BookTaken.aspx">Book Received</a> </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a href="Send-SMS.aspx"><i class="icon-envelope-alt"></i><span>Messaging</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="SMS-Template.aspx">SMS Templates</a> </li>
+                                    <li><a href="Gateway-Settings.aspx">Gateway Settings</a> </li>
+                                    <li><a href="Send-SMS.aspx">Send SMS</a> </li>
+                                </ul>
+                            </li>
+                            
+                            <li class="dropdown-submenu"><a href="Default.aspx"><i class="icon-cog"></i><span>Settings</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="New-User.aspx">Add New User</a> </li>
+                                    <li><a href="ChangePass.aspx">Change Password</a> </li>
+                                    <%--<li><a href="ChangePass.aspx">Tution Fee</a> </li>--%>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a href="Default.aspx"><i class="icon-bar-chart"></i><span>Reports</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="Student-List.aspx" >Students List</a> </li>
+                                    <li><a href="Coll-History.aspx">Collection Report</a> </li>
+                                    <li><a href="Exp-History.aspx">Expenses Report</a> </li>
+                                    <li><a href="#ClassSetup.aspx">Book Given</a> </li>
+                                    <li><a href="#UserReg.aspx">Book Received</a> </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- / nav -->
+                    <!-- note -->
+                    <%--<div class="bg-danger wrapper hidden-vertical animated rollIn text-sm"><a href="#" data-dismiss="alert" class="pull-right m-r-n-sm m-t-n-sm"><i class="icon-close icon-remove "></i></a>Hi, welcome to todo, you can start here. </div>--%>
+                    <!-- / note -->
+                </section>
+            </section>
+        </aside>
+        <!-- /.aside -->
+        <form id="form1" runat="server" autocomplete="off">
+            <!-- .vbox -->
+            <section id="content">
+                <section class="vbox">
+                    <header class="header bg-black navbar navbar-inverse"> 
+                        <div class="collapse navbar-collapse pull-in"> 
+                            <ul class="nav navbar-nav m-l-n"> 
+                                <li class="active"><a href="Default.aspx">Dashboard</a></li> 
+                                <li><a href="Billing.aspx">Billing</a></li> 
+                                <li><a href="Expense-Entry.aspx" data-pjax="" data-target="#pjax-container">Expense</a></li> 
+                                <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Students<b class="caret"></b></a> 
+                                    <ul class="dropdown-menu"> 
+                                        <li><a href="Admission.aspx">Admission</a></li> 
+                                        <li><a href="Search.aspx">Search</a></li> 
+                                        <li><a href="ID-Card.aspx">ID Card</a></li> 
+                                        <li><a href="Billing.aspx">Billing</a></li> 
+                                        <li><a href="Admit-Card.aspx">Admit Card</a></li> 
+                                    </ul> 
+                                </li> 
+                                <li><a href="Logout.aspx">Log out</a></li> 
+                            </ul>   
+                        </div> 
+                    </header>
+                    <div>
+                        <asp:ContentPlaceHolder ID="bodycontent" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </section>
+                <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="body"></a>
+
+            </section>
+            <!-- /.vbox -->
+        </form>
+    </section>
+    
+    <script src="../js/apps/notify.min.js"></script>
+    <script src="../css/app.v1.js"></script>
+    <!-- Bootstrap -->
+    <!-- Sparkline Chart -->
+    <!-- App -->
+    
+    <script type="text/javascript">
+
+        function PrintElem(elem) {
+            Popup($(elem).html());
+        }
+
+        function Popup(data) {
+            var mywindow = window.open('', 'Pathshala', 'height=400,width=600');
+            mywindow.document.write('<html><head><title>Print Report</title>');
+            /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write(data);
+            mywindow.document.write('</body></html>');
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
+
+        function callJquery() {
+            $.notify('Jquery reloaded!', 'info');
+        }
+</script>
+
+
+</body>
+</html>

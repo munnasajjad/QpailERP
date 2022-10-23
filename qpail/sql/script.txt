@@ -1,0 +1,21 @@
+
+CREATE TABLE [dbo].[ProductionStandard](
+	[spid] [int] IDENTITY(1,1) NOT NULL,
+	[Section] [nvarchar](50) NULL,
+	[MachineNo] [nvarchar](50) NULL,
+	[ItemGrade] [nvarchar](50) NULL,
+	[ItemCategory] [nvarchar](50) NULL,
+	[PackSize] [nvarchar](50) NULL,
+	[Operation] [nvarchar](50) NULL,
+	[StdPrdn] [nvarchar](50) NULL,
+	[Remarks] [nvarchar](50) NULL,
+	[EntryBy] [nvarchar](50) NULL,
+	[EntryDate] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[ProductionStandard] ADD  CONSTRAINT [DF_ProductionStandard_EntryDate]  DEFAULT (getdate()) FOR [EntryDate]
+GO
+
+

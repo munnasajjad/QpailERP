@@ -1,0 +1,92 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Main.Master.cs" Inherits="Main" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Software License Agreement</title>
+    <meta name="keywords" content="" /> 
+    <meta name="description" content="" />
+    <meta name="GENERATOR" content="Microsoft Visual Studio .NET 9" />
+    <meta name="CODE_LANGUAGE" content="C#" />
+    <meta name="vs_defaultClientScript" content="JavaScript" />
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+    <meta name="author" content="Md. Akter Uddin Rony" />
+    <meta name="copyright" content="Copyright © Extreme Solutions" />
+    <meta name="owner" content="Extreme Solutions" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    
+    <asp:ContentPlaceHolder id="headContect" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+   
+<div id="preload"></div>
+
+<%--Header Contants--%>
+<%--<div id="header">
+<h1>Courier&nbsp<span>Automation</span></h1>
+<big>Eagle</big>
+</div>--%>
+
+<div id="menu">
+	<ul>
+	  <li><a href="Default.aspx">Main</a></li>
+	  <li><a href="Login.aspx">Login</a></li>
+	  </ul> 	
+</div>
+<div id="main">
+<div id="container">
+
+<%--Leftside Contants--%>
+<div id="lefts">
+
+<asp:ContentPlaceHolder ID="LeftMenu" runat="server">
+
+</asp:ContentPlaceHolder>
+
+</div>
+<%--End Leftside Contants--%>
+
+<%--Rightside Contants--%>
+<div id="rights">
+<div id="extras">
+<asp:ContentPlaceHolder ID="RightContent" runat="server">
+
+    
+
+</asp:ContentPlaceHolder>
+</div>
+<%--End Rightside Contants--%>
+<%--Body Contants--%>
+<div id="content">
+    
+    <div>
+        <asp:ContentPlaceHolder id="BodyContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    
+</div>
+<%--End Body Contants--%>
+<%--Footer Contants--%>
+<div id="footer">
+    
+
+        <marquee scrolldelay="50" scrollamount="3" >
+            Total Collection: <asp:Label ID="lblAdm" runat="server" Text="0.00 Tk."></asp:Label>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            Total Paid: <asp:Label ID="lblDis" runat="server" Text="0.00 Tk."></asp:Label>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        </marquee>
+
+<br />
+|&copy; 2015|</div>
+<%--End Footer Contants--%>
+<%--Page Contants--%>
+</div>
+</div>
+    </div>
+</body>
+</html>

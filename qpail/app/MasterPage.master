@@ -1,0 +1,1158 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="AdminCentral_MasterPage" %>
+
+<!DOCTYPE HTML>
+<html>
+
+<head runat="server">
+    <%--<title>Super Admin : XERP</title>--%>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="../js/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
+    <script type="text/JavaScript">
+        //setTimeout("location.href = '../login.aspx';", 900000);
+        //var Page;
+        //var postBackElement;
+        //function pageLoad() {
+        //    Page = Sys.WebForms.PageRequestManager.getInstance();
+        //    Page.add_beginRequest(OnBeginRequest);
+        //    Page.add_endRequest(endRequest);
+        //}
+    </script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="../css/ie/ie7.css" />
+<![endif]-->
+    <!--[if IE 8]>
+<link rel="stylesheet" type="text/css" href="../css/ie/ie8.css" />
+<![endif]-->
+    <!--[if IE 9]>
+<link rel="stylesheet" type="text/css" href="../css/ie/ie9.css" />
+<![endif]-->
+    <!-- Jquery -->
+
+    <link href="../css/select2.css" rel="stylesheet" />
+    <script src="../js/select2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $('#sidenav').find('li.subheading_menu').click(function () {
+
+                //Expand or collapse this panel
+                $(this).next().slideToggle('slow');
+
+                //Hide the other panels
+                $("#sidenav ul span").not($(this).next()).slideUp('slow');
+
+            });
+
+            $('#sidenav ul li.xerp_curr').closest('#sidenav ul span').show();
+            $(".select2me").select2();
+        });
+
+        function callJquery() {
+            $(".select2me").select2();
+            GroupDropDownList();
+        }
+    </script>
+
+
+
+
+
+
+    <%--
+
+	<script>
+		$(document).ready(function () {
+			$("li.salesSetup").click(function () {
+				$(".salesSetupOpen").slideToggle("slow");
+			});
+			$("li.salesPOS").click(function () {
+				$(".salesPOSOpen").slideToggle("slow");
+			});
+			$("li.salesCollections").click(function () {
+				$(".salesCollectionsOpen").slideToggle("slow");
+			});
+			$("li.salesReport").click(function () {
+				$(".salesReportOpen").slideToggle("slow");
+			});
+
+
+			$("li.PurchaseSetup").click(function () {
+				$(".PurchaseSetupOpen").toggle("slow");
+			});
+			$("li.Purchase-top").click(function () {
+				$(".Purchase-Open").toggle("slow");
+			});
+			$("li.Purchase-LC").click(function () {
+				$(".Purchase-LC-Open").toggle("slow");
+			});
+			$("li.Purchase-Reports").click(function () {
+				$(".Purchase-Reports-Open").toggle("slow");
+			});
+			$("li.Purchase-Reports").click(function () {
+				$(".Purchase-Reports-Open").toggle("slow");
+			});
+
+
+			$("li.Inventory-Setups").click(function () {
+				$(".Inventory-Setups-Open").toggle("slow");
+			});
+			$("li.Inventory-Warehouses").click(function () {
+				$(".Inventory-Warehouses-Open").toggle("slow");
+			});
+			$("li.Inventory-Transfer").click(function () {
+				$(".Inventory-Transfer-Open").toggle("slow");
+			});
+			$("li.Inventory-Reports").click(function () {
+				$(".Inventory-Reports-Open").toggle("slow");
+			});
+
+
+			$("li.Production-Setups").click(function () {
+				$(".Production-Setups-Open").toggle("slow");
+			});
+			$("li.Production-top").click(function () {
+				$(".Production-Open").toggle("slow");
+			});
+			$("li.Production-Reports").click(function () {
+				$(".Production-Reports-Open").toggle("slow");
+			});
+
+
+			$("li.Accounts-Setups").click(function () {
+				$(".Accounts-Setups-Open").toggle("slow");
+			});
+			$("li.Accounts-DE").click(function () {
+				$(".Accounts-DE-Open").toggle("slow");
+			});
+			$("li.Accounts-Reports").click(function () {
+				$(".Accounts-Reports-Open").toggle("slow");
+			});
+
+
+
+
+			$("li.Payroll-Setups").click(function () {
+				$(".Payroll-Setups-Open").toggle("slow");
+			});
+			$("li.Payroll-DE").click(function () {
+				$(".Payroll-DE-Open").toggle("slow");
+			});
+			$("li.Payroll-Reports").click(function () {
+				$(".Payroll-Reports-Open").toggle("slow");
+			});
+
+
+			$("li.CRM-Setups").click(function () {
+				$(".CRM-Setups-Open").toggle("slow");
+			});
+			$("li.CRM-DE").click(function () {
+				$(".CRM-DE-Open").toggle("slow");
+			});
+
+
+			$("li.FM-Declarations").click(function () {
+				$(".FM-Declarations-Open").toggle("slow");
+			});
+			$("li.FM-Consumptions").click(function () {
+				$(".FM-Consumptions-Open").toggle("slow");
+			});
+			$("li.FM-Measurements").click(function () {
+				$(".FM-Measurements-Open").toggle("slow");
+			});
+
+
+
+			$("li.Admin-Setups").click(function () {
+				$(".Admin-Setups-Open").toggle("slow");
+			});
+			$("li.Admin-NM").click(function () {
+				$(".Admin-NM-Open").toggle("slow");
+			});
+			$("li.Admin-US").click(function () {
+				$(".Admin-US-Open").toggle("slow");
+			});
+			$("li.Admin-Reports").click(function () {
+				$(".Admin-Reports-Open").toggle("slow");
+			});
+
+
+		});
+</script>--%>
+    <style>
+        li.subheading_menu {
+            cursor: pointer;
+        }
+
+        ul > span > li > a {
+            padding-left: 26px !important;
+        }
+
+        ul.acitem span li.xerp_curr > span {
+            display: block !important;
+        }
+    </style>
+</head>
+<body id="theme-default" class="full_block">
+    <form id="form1" runat="server" autocomplete="off">
+
+        <div id="left_bar">
+            <div id="primary_nav" class="g_blue">
+                <ul>
+                    <li id="menuID1" runat="server"><a href="Default.aspx" title="Dashboard"><span class="icon_block m_dashboard">Dashboard</span></a></li>
+                    <li id="menuID2" runat="server"><a href="Reminders.aspx" title="Notice Board"><span class="icon_block m_projects">Reminders</span></a></li>
+                    <li id="menuID3" runat="server"><a href="Events.aspx" title="Events"><span class="icon_block m_events">Events</span></a></li>
+                    <li id="menuID4" runat="server"><a href="Address-Book.aspx" title="Address Book"><span class="icon_block p_book">Address Book</span></a></li>
+                    <li id="menuID5" runat="server"><a href="Help.aspx" title="Software Manual"><span class="icon_block m_media">Software Manual</span></a></li>
+                    <li id="menuID6" runat="server"><a href="Settings.aspx" title="Settings"><span class="icon_block m_settings">Settings</span></a></li>
+                </ul>
+            </div>
+            <div id="start_menu">
+            </div>
+            <div id="sidebar">
+                <div id="secondary_nav">
+                    <ul id="sidenav" class="menu accordion_mnu collapsible">
+                        <li id="dashboard" runat="server"><a href="Default.aspx"><span class="nav_icon computer_imac"></span>Dashboard <%--<span class="alert_notify blue">4</span><span class="up_down_arrow">&nbsp;</span>--%></a></li>
+
+
+                        <%--<asp:Panel id="SalesMenuPanel" runat="server">--%>
+                        <li id="salesMenu" runat="server"><a href="#"><span class="nav_icon scan_label_2"></span>Sales<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+                                <li class="subheading_menu salesSetup"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub1" runat="server" class="salesSetupOpen" style="display: none; width: 100%;">
+                                    <li id="Customers" runat="server"><a href="Party.aspx?type=customer"><span class="list-icon">&nbsp;</span>Customers</a></li>
+                                    <li id="Brands" runat="server"><a href="Customer-Brands.aspx"><span class="list-icon">&nbsp;</span>Customer Brands</a></li>
+                                    <li id="ItemTypes" runat="server"><a href="Item-Types.aspx"><span class="list-icon">&nbsp;</span>Pack Size</a></li>
+                                    <li id="menuID63" runat="server" visible="false"><a href="Finished-Items.aspx"><span class="list-icon">&nbsp;</span>Finished Items</a></li>
+                                    <li id="menuID63New" runat="server"><a href="Finished-Items2.aspx"><span class="list-icon">&nbsp;</span>Finished Items (New)</a></li>
+
+
+                                    <li id="person_sales" runat="server"><a href="Sales-Persons.aspx?type=sr"><span class="list-icon">&nbsp;</span>Sales Representatives</a></li>
+                                    <li id="sales_zone" runat="server"><a href="Zone.aspx?type=sales"><span class="list-icon">&nbsp;</span>Sales Zone</a></li>
+                                    <li id="delivery_Points" runat="server"><a href="Customer-Delivery-Points.aspx"><span class="list-icon">&nbsp;</span>Delivery Points</a></li>
+
+                                </span>
+                                <%-- <li class="subheading_menu"><span class="list-icon">&nbsp;</span>Quotation</li>
+								<li id="Quotation" runat="server">
+									<asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/app/Sales-Xclusive.aspx?type=quotation"><span class="list-icon">&nbsp;</span>Prepare Sale Quotation</asp:HyperLink></li>--%>
+
+                                <li class="subheading_menu salesPOS"><span class="list-icon">&nbsp;</span>POS</li>
+                                <span id="sub2" runat="server" class="salesPOSOpen" style="display: none; width: 100%;">
+                                    <li id="order" runat="server">
+                                        <asp:HyperLink ID="Hyp_Sales_Form" runat="server" NavigateUrl="~/app/Order-Entry.aspx"><span class="list-icon">&nbsp;</span>Sales Order Entry</asp:HyperLink></li>
+                                    <li id="cancelorder" runat="server">
+                                        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/app/Order-Edit.aspx"><span class="list-icon">&nbsp;</span>Edit Sales Order</asp:HyperLink></li>
+                                    <%--<li id="sales" runat="server">
+										<asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/app/Sales-Xclusive.aspx?type=sales"><span class="list-icon">&nbsp;</span>Sales Entry</asp:HyperLink></li>--%>
+
+                                    <li id="CreatePI" runat="server">
+                                        <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/app/Create-PI.aspx"><span class="list-icon">&nbsp;</span>Create New PI</asp:HyperLink></li>
+                                    <li id="EditPI" runat="server">
+                                        <asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/app/Edit-PI.aspx"><span class="list-icon">&nbsp;</span>Update PI Info</asp:HyperLink></li>
+                                    <li id="Li7" runat="server">
+                                        <asp:HyperLink ID="HyperLink9" runat="server" NavigateUrl="~/app/LLC-from-PI.aspx"><span class="list-icon">&nbsp;</span>Create LLC from PI</asp:HyperLink></li>
+                                    <li id="Li19" runat="server">
+                                        <asp:HyperLink ID="HyperLink7" runat="server" NavigateUrl="~/app/LLC-Amendment.aspx"><span class="list-icon">&nbsp;</span>LLC Amendment</asp:HyperLink></li>
+
+                                    <li id="delivery" runat="server">
+                                        <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/app/Order-Delivery.aspx"><span class="list-icon">&nbsp;</span>Order Delivery</asp:HyperLink></li>
+                                    <li id="directsale" runat="server">
+                                        <asp:HyperLink ID="HyperLink6" class="hidden" runat="server" NavigateUrl="~/app/Sales-Direct.aspx"><span class="list-icon">&nbsp;</span>Direct Invoicing</asp:HyperLink></li>
+                                    <li id="Li58" runat="server">
+                                        <asp:HyperLink ID="HyperLink10" runat="server" NavigateUrl="~/app/Sales-Fixed-Items.aspx"><span class="list-icon">&nbsp;</span>Direct Invoicing</asp:HyperLink>
+                                    </li>
+                                    <li id="salesBOQ" runat="server">
+                                        <asp:HyperLink ID="HyperLink11" runat="server" NavigateUrl="~/app/SalesEntryBOQ.aspx"><span class="list-icon">&nbsp;</span>Sales (BOQ)</asp:HyperLink>
+                                    </li>
+                                    <!--Direct Invoicing (New)-->
+                                    <%--<li id="Li2" runat="server"> <asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/app/Order-Delivery.aspx"><span class="list-icon">&nbsp;</span>LC Order Delivery</asp:HyperLink></li>--%>
+
+                                    <li id="SalesReturn" runat="server">
+                                        <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/app/Sales-Return.aspx"><span class="list-icon">&nbsp;</span>Sales Return</asp:HyperLink></li>
+                                    <li id="OrderClose" runat="server">
+                                        <asp:HyperLink ID="HyperLink8" runat="server" NavigateUrl="~/app/Order-Close.aspx"><span class="list-icon">&nbsp;</span>Close/Reopen PO/LLC</asp:HyperLink></li>
+                                </span>
+
+
+                                <li class="subheading_menu salesCollections"><span class="list-icon">&nbsp;</span>Collections</li>
+                                <span id="sub3" runat="server" class="salesCollectionsOpen" style="display: none; width: 100%;">
+                                    <li id="Collection" runat="server"><a href="Collection.aspx"><span class="list-icon">&nbsp;</span>Sales Collection</a></li>
+                                    <li id="CollectionEdit" runat="server"><a href="CollectionEdit.aspx"><span class="list-icon">&nbsp;</span>Collection Edit</a></li>
+                                    <li id="CollectionAdjustment" runat="server"><a href="CollectionAdjustment.aspx"><span class="list-icon">&nbsp;</span>Collection Adjustment</a></li>
+                                    <li id="CollectionLC" runat="server"><a href="Collection-LC.aspx"><span class="list-icon">&nbsp;</span>Collection From LC</a></li>
+                                    <li id="Chequesales" runat="server"><a href="Cheque.aspx?type=sales"><span class="list-icon">&nbsp;</span>Cheque Processing</a></li>
+                                    <%--<li id="CollectionbyDate" runat="server"><a href="Collection-by-Date.aspx"><span class="list-icon">&nbsp;</span>Collection History</a></li>
+									<li id="Adjustmentcustomer" runat="server"><a href="Adjustment.aspx?type=customer"><span class="list-icon">&nbsp;</span>Adjustment</a></li>--%>
+                                </span>
+                                <li class="subheading_menu salesReport"><span class="list-icon">&nbsp;</span>Reports</li>
+                                <span id="sub4" runat="server" class="salesReportOpen" style="display: none; width: 100%;">
+
+                                    <li id="Li48" runat="server"><a href="Sales-Statement.aspx"><span class="list-icon">&nbsp;</span>Sales Statement</a></li>
+                                    <li id="Li002" runat="server"><a href="MaturedBillStatement.aspx"><span class="list-icon">&nbsp;</span>Matured Bill Statement</a></li>
+                                    <li id="Li003" runat="server"><a href="OutstandingList.aspx"><span class="list-icon">&nbsp;</span>Outstanding Bill List</a></li>
+                                    <li id="SaleItemReport" runat="server"><a href="Sale-Item-Report.aspx"><span class="list-icon">&nbsp;</span>Sales by Items</a></li>
+                                    <li id="SalesItembyBrandReport" runat="server"><a href="Sale-Item-byBrand-Report.aspx"><span class="list-icon">&nbsp;</span>Sales by Brand</a></li>
+                                    <li id="Li23" runat="server"><a href="Sale-Pack-Report.aspx"><span class="list-icon">&nbsp;</span>Sales by Pack-Size</a></li>
+                                    <li id="Li28" runat="server"><a href="Sale-Pack-Company.aspx"><span class="list-icon">&nbsp;</span>Pack-Size Sales Summary</a></li>
+                                    <li id="Li24" runat="server"><a href="Sale-Grade-Report.aspx"><span class="list-icon">&nbsp;</span>Sales by Item Grade</a></li>
+                                    <li id="Li29" runat="server"><a href="Sales-Month.aspx"><span class="list-icon">&nbsp;</span>Item Sales by Month</a></li>
+                                    <li id="Li31" runat="server"><a href="Year-Sale-Packsize.aspx"><span class="list-icon">&nbsp;</span>Yearly Sales by Pack-Size</a></li>
+                                    <li id="Li32" runat="server"><a href="Sale-Pack-Year.aspx"><span class="list-icon">&nbsp;</span>Yearly Sales to Customers</a></li>
+                                    <li id="Li33" runat="server"><a href="Sale-Type-Year.aspx"><span class="list-icon">&nbsp;</span>Yearly Sales by Grade & Company</a></li>
+
+                                    <li id="Li25" runat="server"><a href="Sale-Grade-Company.aspx"><span class="list-icon">&nbsp;</span>Sales by Grade & Company</a></li>
+                                    <li id="SaleCustomerReport" runat="server"><a href="Sale-Customer-Report.aspx"><span class="list-icon">&nbsp;</span>Customers Sales Summary</a></li>
+
+                                    <li id="Li21" runat="server"><a href="Sale-Details-Report.aspx"><span class="list-icon">&nbsp;</span>Customers Sales Details</a></li>
+
+                                    <li id="Li12" runat="server"><a href="PO-Date-Range.aspx"><span class="list-icon">&nbsp;</span>PO By Date Range</a></li>
+                                    <li id="Li27" runat="server"><a href="PO-Items-Report.aspx"><span class="list-icon">&nbsp;</span>PO Items</a></li>
+                                    <li id="Li14" runat="server"><a href="PO-Status.aspx"><span class="list-icon">&nbsp;</span>Pending Delivery Items</a></li>
+                                    <li id="Li13" runat="server"><a href="Invoice-Date-Range.aspx"><span class="list-icon">&nbsp;</span>Invoice By Date Range</a></li>
+                                    <li id="Li26" runat="server"><a href="Invoice-Pay-Status.aspx"><span class="list-icon">&nbsp;</span>Invoice By Payment Status</a></li>
+                                    <li id="Li8" runat="server"><a href="Search-Invoice.aspx"><span class="list-icon">&nbsp;</span>Search Invoice</a></li>
+
+                                    <li id="CustomerCreditList" runat="server"><a href="Customer-Credit-List.aspx"><span class="list-icon">&nbsp;</span>Credit List</a></li>
+                                    <li id="CustomerLadger" runat="server"><a href="Customer-Ladger.aspx"><span class="list-icon">&nbsp;</span>Customer Ledger</a></li>
+                                    <li id="Li30" runat="server"><a href="Sales-Collection-History.aspx"><span class="list-icon">&nbsp;</span>Sales Collection History</a></li>
+                                    <%--<li id="SaleDailyReport" runat="server"><a href="Sale-Daily-Report.aspx"><span class="list-icon">&nbsp;</span>Sale by Date</a></li>
+									<li id="SaleCategories" runat="server"><a href="Sale-Categories.aspx"><span class="list-icon">&nbsp;</span>Sale by Categories</a></li>
+									<li id="SaleTypesRpt" runat="server"><a href="Sale-Types-Rpt.aspx"><span class="list-icon">&nbsp;</span>Sale by Types </a></li>
+									<li id="DORpt" runat="server"><a href="DO-Rpt.aspx"><span class="list-icon">&nbsp;</span>Delivery Orders</a></li>
+									<li id="SalesPersons" runat="server"><a href="Sales-Persons.aspx?type=sales"><span class="list-icon">&nbsp;</span>Marketing Person Sales</a></li>--%>
+                                </span>
+                                <li class="subheading_menu salesBOQReports"><span class="list-icon">&nbsp;</span>BOQ Reports</li>
+                                <span id="saleBOQReportsMenu" runat="server" class="salesBOQOpen" style="display: none; width: 100%;">
+                                    <li id="itemWiseProfit" runat="server"><a href="ItemWiseProfitCalculationReport.aspx"><span class="list-icon">&nbsp;</span>Item Wise Profit</a></li>
+                                    <li id="invoiceWiseProfit" runat="server"><a href="InvoiceWiseProfitCalculation.aspx"><span class="list-icon">&nbsp;</span>Invoice Wise Profit</a></li>
+                                    <li id="fifoSummary" runat="server"><a href="FifoSummaryReport.aspx"><span class="list-icon">&nbsp;</span>Fifo Summary</a></li>
+                                    <%--<li id="CollectionbyDate" runat="server"><a href="Collection-by-Date.aspx"><span class="list-icon">&nbsp;</span>Collection History</a></li>
+									<li id="Adjustmentcustomer" runat="server"><a href="Adjustment.aspx?type=customer"><span class="list-icon">&nbsp;</span>Adjustment</a></li>--%>
+                                </span>
+                            </ul>
+                        </li>
+
+                        <%--</asp:Panel>
+
+						<asp:Panel id="PurchaseMenuPanel" runat="server">--%>
+                        <li id="purchaseMenu" runat="server"><a id="Pmenu" runat="server" href="#"><span class="nav_icon shopping_cart_3"></span>Purchase<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem" id="menuPur" runat="server">
+                                <li class="subheading_menu PurchaseSetup"><span class="list-icon">&nbsp;</span>Requisition</li>
+                                <span id="requisition" runat="server" class="PurchaseSetupOpen" style="display: none; width: 100%;">
+                                    <li id="RequisitionEntry" runat="server"><a href="Requisition.aspx"><span class="list-icon">&nbsp;</span>Requisition Entry</a></li>
+                                </span>
+
+                                <li class="subheading_menu PurchaseSetup"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub5" runat="server" class="PurchaseSetupOpen" style="display: none; width: 100%;">
+                                    <li id="Li6" runat="server"><a href="Ref-Items.aspx"><span class="list-icon">&nbsp;</span>General Item Type</a></li>
+                                    <li id="supplier" runat="server"><a href="Party2.aspx?type=supplier"><span class="list-icon">&nbsp;</span>Manufacturers</a></li>
+                                    <li id="agents" runat="server"><a href="Party2.aspx?type=agents"><span class="list-icon">&nbsp;</span>Import Agents</a></li>
+                                    <li id="cnf" runat="server"><a href="Party.aspx?type=cnf"><span class="list-icon">&nbsp;</span>CNF Agents</a></li>
+                                    <li id="transport" runat="server"><a href="Party.aspx?type=transport"><span class="list-icon">&nbsp;</span>Transport Agents</a></li>
+                                    <%--<li id="insurance" runat="server"><a href="Bank.aspx?type=insurance"><span class="list-icon">&nbsp;</span>Insurence Company</a></li>--%>
+                                    <li id="insurance" runat="server"><a href="Party.aspx?type=insurance"><span class="list-icon">&nbsp;</span>Insurence Company</a></li>
+
+                                    <li id="zone_purchase" runat="server"><a href="Zone.aspx?type=purchase"><span class="list-icon">&nbsp;</span>Purchase Zones</a></li>
+                                    <li id="person_ref" runat="server"><a href="Sales-Persons.aspx?type=ref"><span class="list-icon">&nbsp;</span>Referrers</a></li>
+                                    <li id="liVendor" runat="server"><a href="Party2.aspx?type=vendor"><span class="list-icon">&nbsp;</span>Vendors (Suppliers)</a></li>
+
+                                </span>
+
+                                <li class="subheading_menu Purchase-top"><span class="list-icon">&nbsp;</span>Local Purchase</li>
+                                <span id="sub6" runat="server" class="Purchase-Open" style="display: none; width: 100%;">
+                                    <%--<li id="Purchase_req" runat="server"><a href="Purchase.aspx?type=req"><span class="list-icon">&nbsp;</span>Requisition Entry</a></li>
+									<li id="PurchasereqApproval" runat="server"><a href="Purchase.aspx?type=reqApproval"><span class="list-icon">&nbsp;</span>Requisition Approval</a></li>--%>
+                                    <li id="Purchasepurchase" runat="server"><a href="Purchase.aspx?type=purchase"><span class="list-icon">&nbsp;</span>Purchase Entry</a></li>
+                                    <li id="PurchaseEdit" runat="server"><a href="Purchase.aspx?type=edit"><span class="list-icon">&nbsp;</span>Purchase Edit</a></li>
+                                    <li id="PurchaseReturn" runat="server"><a href="Purchase-Return.aspx?type=local"><span class="list-icon">&nbsp;</span>Purchase Return</a></li>
+                                    <li id="Paymentlocal" runat="server"><a href="Payment.aspx?type=local"><span class="list-icon">&nbsp;</span>Purchase Payment</a></li>
+                                    <li id="Chequepurchase" runat="server"><a href="Cheque-Payment.aspx"><span class="list-icon">&nbsp;</span>Cheque Processing</a></li>
+                                    <%--<li id="Adjustmentsupplier" runat="server"><a href="Adjustment.aspx?type=supplier"><span class="list-icon">&nbsp;</span>Adjustment</a></li>--%>
+                                </span>
+
+                                <li class="subheading_menu Purchase-LC"><span class="list-icon">&nbsp;</span>LC</li>
+                                <span id="sub7" runat="server" class="Purchase-LC-Open" style="display: none; width: 100%;">
+                                    <li id="menuID37" runat="server"><a href="Exp-Types.aspx?type=lc"><span class="list-icon">&nbsp;</span>LC Expense Types</a></li>
+                                    <li id="lc" runat="server"><a href="ExpHead.aspx?type=lc"><span class="list-icon">&nbsp;</span>LC Expense Heads</a></li>
+                                    <%--<li id="menuID37" runat="server"><a href="Purchase.aspx?type=LCreq"><span class="list-icon">&nbsp;</span>Requisition Entry</a></li>
+										<li id="menuID38" runat="server"><a href="Purchase.aspx?type=LCreqAppr"><span class="list-icon">&nbsp;</span>Requisition Approval</a></li>--%>
+                                    <li id="LCOpenCreate" runat="server"><a href="LC-Open.aspx?type=create"><span class="list-icon">&nbsp;</span>LC General Info</a></li>
+                                    <li id="statusLc" runat="server"><a href="Status-Updates.aspx?type=LC"><span class="list-icon">&nbsp;</span>LC Status Updates</a></li>
+                                    <li id="LCOpenEdit" runat="server"><a href="LC-Open.aspx?type=edit"><span class="list-icon">&nbsp;</span>LC Amendment</a></li>
+                                    <li id="LCExpenses" runat="server"><a href="LC-Expenses.aspx"><span class="list-icon">&nbsp;</span>LC Costing</a></li>
+                                    <li id="LCFinalization" runat="server"><a href="LC-Finalization.aspx"><span class="list-icon">&nbsp;</span>LC Finalization</a></li>
+                                    <%--<li id="Paymentlc" runat="server"><a href="Payment.aspx?type=lc"><span class="list-icon">&nbsp;</span>LC Payment</a></li>--%>
+                                    <li id="LCReturn" runat="server" style="display: none"><a href="LC-Return.aspx"><span class="list-icon">&nbsp;</span>LC Item Return</a></li>
+                                    <li id="LCVoucher" class="hidden" runat="server"><a href="LC-Items.aspx"><span class="list-icon">&nbsp;</span>LC Items Received</a></li>
+
+                                </span>
+                                <%--<li class="subheading_menu"><span class="list-icon">&nbsp;</span>Payments</li>--%>
+
+                                <li class="subheading_menu Purchase-Reports"><span class="list-icon">&nbsp;</span>Purchase Reports</li>
+                                <span id="sub8" runat="server" class="Purchase-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="menuID49" runat="server"><a href="RPT-Purchase-Invoice.aspx"><span class="list-icon">&nbsp;</span>Purchase by Invoice</a></li>
+                                    <li id="Li52" runat="server"><a href="Item-Purchase-History.aspx"><span class="list-icon">&nbsp;</span>Item Purchase History</a></li>
+                                    <li id="ItemWisePurchaseReport" runat="server"><a href="Item-Wise-Purchase-Report.aspx"><span class="list-icon">&nbsp;</span>Item Wise Purchase Report</a></li>
+                                    <%--<li id="Li52P1" runat="server"><a href="Item-Purchase-History2.aspx"><span class="list-icon">&nbsp;</span>Item Purchase HistoryOld</a></li>--%>
+                                    <li id="menuID52" runat="server"><a href="Supplier-Credit-List.aspx"><span class="list-icon">&nbsp;</span>Supplier Credit List</a></li>
+                                    <li id="menuID50" runat="server"><a href="Supplier-Ladger.aspx"><span class="list-icon">&nbsp;</span>Supplier Ledger</a></li>
+
+                                    <%--<li id="Li68" runat="server"><a href="Supplier-Ladger1.aspx"><span class="list-icon">&nbsp;</span>Supplier Ledger</a></li>--%>
+                                    <li id="menuID51" runat="server"><a href="#Currencies.aspx"><span class="list-icon">&nbsp;</span>Purchase by Products</a></li>
+                                    <li id="Currencies" runat="server"><a href="Currencies.aspx"><span class="list-icon">&nbsp;</span>Party Payment History</a></li>
+                                    <li id="menuID53" runat="server"><a href="#Tariff.aspx"><span class="list-icon">&nbsp;</span>Search Purchase </a></li>
+                                </span>
+                                <li class="subheading_menu LC-Reports"><span class="list-icon">&nbsp;</span>LC Reports</li>
+                                <span id="sub9" runat="server" class="LC-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="Li20" runat="server"><a href="LC-Date-Range.aspx"><span class="list-icon">&nbsp;</span>LC By Date Range</a></li>
+                                    <li id="lcExpenseRpt" runat="server"><a href="LC-ExpenseReport.aspx"><span class="list-icon">&nbsp;</span>LC Expense Report</a></li>
+                                    <li id="lcExpenseSummary" runat="server"><a href="LC-ExpenseSummary.aspx"><span class="list-icon">&nbsp;</span>LC Expense Summary</a></li>
+                                    <li id="lcExpenseDetails" runat="server"><a href="LC-ExpenseDetails.aspx"><span class="list-icon">&nbsp;</span>LC Expense Details</a></li>
+                                    <li id="partyLedger" runat="server"><a href="Party-Ledger.aspx"><span class="list-icon">&nbsp;</span>Party Ledger</a></li>
+                                    <li id="menuID57" runat="server"><a href="LC-Preview.aspx"><span class="list-icon">&nbsp;</span>LC Detail View</a></li>
+                                    <li id="menuID56" runat="server"><a href="Item-Costing-Comparison.aspx"><span class="list-icon">&nbsp;</span>Item Costing Comparison</a></li>
+                                    <li id="menuID54" runat="server"><a href="LC-Items-History.aspx"><span class="list-icon">&nbsp;</span>LC Items Use Status</a></li>
+                                    <li id="menuID55" runat="server"><a href="#Tariff.aspx"><span class="list-icon">&nbsp;</span>LC Payment History</a></li>
+                                    <li id="menuID58" runat="server"><a href="#Tariff.aspx"><span class="list-icon">&nbsp;</span>Search LC Info</a></li>
+                                </span>
+                            </ul>
+                        </li>
+
+                        <%--</asp:Panel>
+
+						<asp:Panel id="InventoryMenuPanel" runat="server">--%>
+                        <li id="Inventory" runat="server"><a href="#"><span class="nav_icon archive"></span>Inventory<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem" id="menuInv" runat="server">
+                                <li class="subheading_menu Inventory-Setups"><span class="list-icon">&nbsp;</span>Product Setup</li>
+                                <span id="sub10" runat="server" class="Inventory-Setups-Open" style="display: none; width: 100%;">
+                                    <li id="ItemGroup" runat="server"><a href="Item-Group.aspx"><span class="list-icon">&nbsp;</span>Product Groups</a></li>
+                                    <li id="ItemSubgrp" runat="server"><a href="Item-Subgrp.aspx"><span class="list-icon">&nbsp;</span>Product Sub-Group</a></li>
+                                    <li id="ItemGrade" runat="server"><a href="Item-Grade.aspx"><span class="list-icon">&nbsp;</span>Product Grade</a></li>
+                                    <li id="ItemCategory" runat="server"><a href="Item-Category.aspx"><span class="list-icon">&nbsp;</span>Product Category</a></li>
+                                    <%--<li id="menuID61" runat="server"><a href="Item-Sub-Cat.aspx"><span class="list-icon">&nbsp;</span>Sub-Category</a></li>--%>
+                                    <li id="Products" runat="server"><a href="Products.aspx"><span class="list-icon">&nbsp;</span>Product Name</a></li>
+                                    <li id="ItemUnit" runat="server"><a href="Item-Unit.aspx"><span class="list-icon">&nbsp;</span>Units</a></li>
+                                    <li id="InkSpecifications" runat="server"><a href="Ink-Specifications.aspx"><span class="list-icon">&nbsp;</span>Ink Specifications</a></li>
+                                </span>
+                                <li class="subheading_menu Inventory-Warehouses"><span class="list-icon">&nbsp;</span>Warehouses</li>
+                                <span id="sub11" runat="server" class="Inventory-Warehouses-Open" style="display: none; width: 100%;">
+                                    <li id="Warehouses" runat="server"><a href="Warehouses.aspx"><span class="list-icon">&nbsp;</span>Warehouse Setup</a></li>
+                                    <li id="sisterConcernWarehouse" runat="server"><a href="SisterConcernWarehouseSetup.aspx"><span class="list-icon">&nbsp;</span>Sister Concern Warehouse Setup</a></li>
+                                    <li id="WarehouseAreas" runat="server"><a href="Warehouse-Areas.aspx"><span class="list-icon">&nbsp;</span>Store Areas & Item Receivers</a></li>
+                                </span>
+
+                                <li class="subheading_menu Inventory-Ajustment"><span class="list-icon">&nbsp;</span>Store Activities</li>
+                                <span id="Span1" runat="server" class="Inventory-Ajustment-Open" style="display: none; width: 100%;">
+
+                                    <li id="Li63" runat="server"><a href="Store-Raw.aspx"><span class="list-icon">&nbsp;</span>Issue & Receive</a></li>
+                                    <li id="inkIssue" runat="server"><a href="InkIssue.aspx"><span class="list-icon">&nbsp;</span>Ink Issue</a></li>
+                                    <li id="stockLoanTakenGiven" runat="server"><a href="StockLoanIssueReceive.aspx"><span class="list-icon">&nbsp;</span>Stock Loan Taken & Given</a></li>
+                                    <li id="Li9" runat="server"><a href="Crushing.aspx"><span class="list-icon">&nbsp;</span>Crushing</a></li>
+                                    <li id="Li80" runat="server"><a href="RequisitionIssue.aspx"><span class="list-icon">&nbsp;</span>Requisition Issue</a></li>
+                                    <li id="Li81" runat="server"><a href="RequisitionApproval.aspx"><span class="list-icon">&nbsp;</span>Requisition Approval</a></li>
+                                    <%--<li id="Li64" runat="server"><a href="Store-Waste.aspx"><span class="list-icon">&nbsp;</span>Wastage (Issue/Receive)</a></li>
+									<li id="Li65" runat="server"><a href="Store-Processed.aspx"><span class="list-icon">&nbsp;</span>Processed (Issue/Receive)</a></li>
+									<li id="Li66" runat="server"><a href="Store-Finished.aspx"><span class="list-icon">&nbsp;</span>Finished (Issue/Receive)</a></li>
+									<li id="Li67" runat="server"><a href="Store-Machine.aspx"><span class="list-icon">&nbsp;</span>Machineries & Electrical</a></li>
+									<li id="Li68" runat="server"><a href="Store-Others.aspx"><span class="list-icon">&nbsp;</span>Others (Issue/Receive)</a></li>--%>
+                                </span>
+
+                                <li class="subheading_menu Inventory-Ajustment"><span class="list-icon">&nbsp;</span>Adjustment</li>
+                                <span id="sub12" runat="server" class="Inventory-Ajustment-Open" style="display: none; width: 100%;">
+
+                                    <li id="Li1" runat="server"><a href="Stock-Adj-Raw.aspx"><span class="list-icon">&nbsp;</span>Raw Stock Adjustment</a></li>
+                                    <li id="Li3" runat="server"><a href="Stock-Adj-Waste.aspx"><span class="list-icon">&nbsp;</span>Wastage Stock Adjustment</a></li>
+                                    <li id="Li4" runat="server"><a href="Stock-Adj-Processed.aspx"><span class="list-icon">&nbsp;</span>Processed Item Adjustment</a></li>
+                                    <li id="Li2" runat="server"><a href="Stock-Adj-Finished.aspx"><span class="list-icon">&nbsp;</span>Finished Stock Adjustment</a></li>
+                                    <li id="Li5" runat="server"><a href="Stock-Adj-Machine.aspx"><span class="list-icon">&nbsp;</span>Machineries & Electrical Adjustment</a></li>
+                                    <li id="Li5x" runat="server"><a href="Stock-Adj-Others.aspx"><span class="list-icon">&nbsp;</span>Others Stock Adjustment</a></li>
+                                </span>
+
+
+                                <li class="subheading_menu Inventory-Transfer"><span class="list-icon">&nbsp;</span>Transfer</li>
+                                <span id="sub13" runat="server" class="Inventory-Transfer-Open" style="display: none; width: 100%;">
+                                    <li id="StockTransferraw" runat="server"><a href="Stock-Transfer.aspx?type=raw"><span class="list-icon">&nbsp;</span>Raw Stock Transfer</a></li>
+                                    <li id="MachineStockTransfer" runat="server"><a href="MachineToMachineTransfer.aspx"><span class="list-icon">&nbsp;</span>Machine to Machine Stock Transfer</a></li>
+                                    <%--<li id="StockTransferfinished" runat="server"><a href="Stock-Transfer.aspx?type=finished"><span class="list-icon">&nbsp;</span>Finished Stock Transfer</a></li>
+									<li id="StockTransferrdamaged" runat="server"><a href="Stock-Transfer.aspx?type=rdamaged"><span class="list-icon">&nbsp;</span>Damaged Raw Stock</a></li>
+									<li id="StockTransferfdamaged" runat="server"><a href="Stock-Transfer.aspx?type=fdamaged"><span class="list-icon">&nbsp;</span>Damaged Finished Stock</a></li>
+									<li id="StockDamaged" runat="server"><a href="Stock-Damaged.aspx"><span class="list-icon">&nbsp;</span>Damaged Stock Processing</a></li>--%>
+                                </span>
+
+                                <li class="subheading_menu Inventory-Reports"><span class="list-icon">&nbsp;</span>Reports</li>
+                                <span id="sub14" runat="server" class="Inventory-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="CurrentStock" runat="server"><a href="Current-Stock-Raw.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Raw)</a></li>
+                                    <li id="MachineStock" runat="server"><a href="MachineStockRaw.aspx"><span class="list-icon">&nbsp;</span>Machine Stock (Raw)</a></li>
+                                    <li id="StockCategory" runat="server"><a href="CategoryWiseStock.aspx"><span class="list-icon">&nbsp;</span>Category Wise Stock (Qty)</a></li>
+                                    <li id="StockCategoryValue" runat="server"><a href="CategoryWiseStockValue.aspx"><span class="list-icon">&nbsp;</span>Category Wise Stock (Value)</a></li>
+                                    <li id="StockGrade" runat="server"><a href="GradeWiseStock.aspx"><span class="list-icon">&nbsp;</span>Grade Wise Stock (Qty)</a></li>
+                                    <li id="StockGradeValue" runat="server"><a href="GradeWiseStockValue.aspx"><span class="list-icon">&nbsp;</span>Grade Wise Stock (Value)</a></li>
+                                    <li id="StockLedger" runat="server"><a href="StockLedger.aspx"><span class="list-icon">&nbsp;</span>Stock Ledger (Raw)</a></li>
+                                    <li id="Li34" runat="server"><a href="Current-Stock-Wastage.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Wastage)</a></li>
+                                    <li id="Li35" runat="server"><a href="Current-Stock-Processed.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Processed)</a></li>
+                                    <li id="Li36" runat="server"><a href="Current-Stock-Finished.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Finished)</a></li>
+                                    <li id="Li37" runat="server"><a href="Current-Stock-Machineries.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Machineries & Electrical)</a></li>
+                                    <li id="Li38" runat="server"><a href="Current-Stock-Others.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Others)</a></li>
+
+                                    <li id="Li65" runat="server"><a href="FIFO-List.aspx"><span class="list-icon">&nbsp;</span>Raw Consumption Report</a></li>
+                                    <li id="RMConsumption" runat="server"><a href="RMConsumptionReport.aspx"><span class="list-icon">&nbsp;</span>Raw Material Consumption Report</a></li>
+                                    <%--<li id="WastageStockConsumption" runat="server"><a href="WastageStockConsumption.aspx"><span class="list-icon">&nbsp;</span>Wastage Stock Consumption Report</a></li>--%>
+                                    <li id="RawStockIssueReport" runat="server"><a href="RawStockIssueReport.aspx"><span class="list-icon">&nbsp;</span>Raw Stock Issue Report</a></li>
+                                    <li id="Li74" runat="server"><a href="RawStockApprovalReport.aspx"><span class="list-icon">&nbsp;</span>Raw Stock Approval Report</a></li>
+
+                                    <li id="StockInOut" runat="server"><a href="Stock-In-Out.aspx"><span class="list-icon">&nbsp;</span>In-Out History (Raw)</a></li>
+                                    <li id="StockTransferHistory" runat="server"><a href="Stock-Transfer-History.aspx"><span class="list-icon">&nbsp;</span>Transfer History</a></li>
+                                    <li id="Li59" runat="server"><a href="FIFO-List.aspx"><span class="list-icon">&nbsp;</span>FIFO List</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <%--</asp:Panel>
+							
+							<asp:Panel id="InventoryMenuPanel" runat="server">--%>
+                        <li id="InventoryNew" runat="server"><a href="#"><span class="nav_icon archive"></span>Inventory New<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem" id="Ul1" runat="server">
+
+                                <li class="subheading_menu Accounts-Setups"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="Span2" runat="server" class="Accounts-Setups-Open" style="display: none; width: 100%;">
+                                    <li id="ProductionACLinkup" runat="server"><a href="Production-AccountsLinkup.aspx"><span class="list-icon">&nbsp;</span>Production A/C Linkup</a></li>
+                                    <%--<li id="StockGroup" runat="server"><a href="StockGroup.aspx"><span class="list-icon">&nbsp;</span>Group</a></li>
+									<li id="StockSubsidiary" runat="server"><a href="StockSubsidiary.aspx"><span class="list-icon">&nbsp;</span>Subsidiary</a></li>
+									<li id="StockControl" runat="server"><a href="StockControl.aspx"><span class="list-icon">&nbsp;</span>Control</a></li>
+									<li id="StockHeadSetup" runat="server"><a href="StockHeadSetup.aspx"><span class="list-icon">&nbsp;</span>Head Setup</a></li>
+									
+									<%--<li id="Li69" runat="server"><a href="Bank-Accounts.aspx"><span class="list-icon">&nbsp;</span>Bank Accounts</a></li>
+									<li id="Li70" runat="server"><a href="Particulars.aspx"><span class="list-icon">&nbsp;</span>Particulars</a></li>--%>
+									
+                                </span>
+                                <li class="subheading_menu Inventory-Ajustment"><span class="list-icon">&nbsp;</span>Stock Transaction</li>
+                                <span id="SpnId1" runat="server" class="Inventory-Ajustment-Open" style="display: none; width: 100%;">
+                                    <li id="StockTransaction" runat="server"><a href="StockTransaction.aspx"><span class="list-icon">&nbsp;</span>Stock Transaction</a></li>
+                                </span>
+
+                                <li class="subheading_menu Inventory-Reports"><span class="list-icon">&nbsp;</span>Reports</li>
+                                <span id="SpnId2" runat="server" class="Inventory-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="StockHeadLedger" runat="server"><a href="StockHeadLedger.aspx"><span class="list-icon">&nbsp;</span>Stock Head Ledger</a></li>
+                                    <li id="ControlStockSummary" runat="server"><a href="ControlStockSummary.aspx"><span class="list-icon">&nbsp;</span>Control Stock Summary</a></li>
+                                    <%--<li id="FinishedStockLedger" runat="server"><a href="FinishedStockLedger.aspx"><span class="list-icon">&nbsp;</span>Finished Stock Ledger</a></li>--%>
+                                    <%--<li id="Li85" runat="server"><a href="Current-Stock-Wastage.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Wastage)</a></li>
+									<li id="Li86" runat="server"><a href="Current-Stock-Processed.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Processed)</a></li>
+									<li id="Li87" runat="server"><a href="Current-Stock-Finished.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Finished)</a></li>
+									<li id="Li88" runat="server"><a href="Current-Stock-Machineries.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Machineries & Electrical)</a></li>
+									<li id="Li89" runat="server"><a href="Current-Stock-Others.aspx"><span class="list-icon">&nbsp;</span>Stock Position (Others)</a></li>
+
+									<li id="Li90" runat="server"><a href="FIFO-List.aspx"><span class="list-icon">&nbsp;</span>Raw Consumption Report</a></li>
+									<li id="Li91" runat="server"><a href="RMConsumptionReport.aspx"><span class="list-icon">&nbsp;</span>Raw Material Consumption Report</a></li>
+									<%--<li id="WastageStockConsumption" runat="server"><a href="WastageStockConsumption.aspx"><span class="list-icon">&nbsp;</span>Wastage Stock Consumption Report</a></li>--%>
+                                    <%--<li id="Li92" runat="server"><a href="RawStockIssueReport.aspx"><span class="list-icon">&nbsp;</span>Raw Stock Issue Report</a></li>
+
+									<li id="Li93" runat="server"><a href="Stock-In-Out.aspx"><span class="list-icon">&nbsp;</span>In-Out History (Raw)</a></li>
+									<li id="Li94" runat="server"><a href="Stock-Transfer-History.aspx"><span class="list-icon">&nbsp;</span>Transfer History</a></li>
+									<li id="Li95" runat="server"><a href="FIFO-List.aspx"><span class="list-icon">&nbsp;</span>FIFO List</a></li>--%>
+                                </span>
+                            </ul>
+                        </li>
+                        <%--</asp:Panel>
+
+						<asp:Panel id="ProductionMenuPanel" runat="server">--%>
+                        <li id="Production" runat="server"><a href="#"><span class="nav_icon chemical"></span>Production<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+                                <li class="subheading_menu Production-Setups"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub15" runat="server" class="Production-Setups-Open" style="display: none; width: 100%;">
+
+                                    <li id="ProductionSections" runat="server"><a href="Production-Sections.aspx"><span class="list-icon">&nbsp;</span>Sections</a></li>
+                                    <li id="Li46" runat="server"><a href="Production-Machines.aspx"><span class="list-icon">&nbsp;</span>Machines</a></li>
+                                    <li id="Operation" runat="server"><a href="Production-Section.aspx"><span class="list-icon">&nbsp;</span>Lines</a></li>
+                                    <li id="Shift" runat="server"><a href="Production-Shift.aspx"><span class="list-icon">&nbsp;</span>Shifts</a></li>
+                                    <li id="ProductionStages" runat="server"><a href="Production-Stages.aspx"><span class="list-icon">&nbsp;</span>Operations</a></li>
+                                    <li id="EmployeeEffeciency" runat="server"><a href="Employee-Effeciency.aspx"><span class="list-icon">&nbsp;</span>Colors</a></li>
+                                    <li id="semiFinishedPackSizeSetup" runat="server"><a href="SemiFinishedPackSizeSetup.aspx"><span class="list-icon">&nbsp;</span>Semi Finished Pack Size Setup</a></li>
+                                    <li id="polyFinishedSize" runat="server"><a href="PolyFinishedGoodsSizeSetup.aspx"><span class="list-icon">&nbsp;</span>Poly Finished Goods Size Setup</a></li>
+                                    <%--<li id="RawConsumptions" runat="server"><a href="Raw-Consumptions.aspx"><span class="list-icon">&nbsp;</span>Raw Consumptions</a></li>
+									<li id="PackagingConsumptions" runat="server"><a href="Packaging-Consumptions.aspx"><span class="list-icon">&nbsp;</span>Consumptions</a></li>--%>
+                                    <li id="purpose" runat="server"><a href="Production-Purpose.aspx"><span class="list-icon">&nbsp;</span>Production Purposes</a></li>
+                                    <li id="prdStandard" runat="server"><a href="Production-Standard.aspx"><span class="list-icon">&nbsp;</span>Standard Production</a></li>
+                                    <li id="mould" runat="server"><a href="MouldInfo.aspx"><span class="list-icon">&nbsp;</span>Mould Information</a></li>
+                                    <li id="polyDimension" runat="server"><a href="PolyDimension.aspx"><span class="list-icon">&nbsp;</span>Poly Dimension</a></li>
+
+                                </span>
+
+                                <li class="subheading_menu Production-top"><span class="list-icon">&nbsp;</span>Production Tin</li>
+                                <span id="sub16" runat="server" class="Production-Open" style="display: none; width: 100%;">
+                                    <li id="Cutting" runat="server"><a href="Cutting-Shearing.aspx"><span class="list-icon">&nbsp;</span>Shearing</a></li>
+                                    <%--<li id="Grinding" runat="server"><a href="Grinding.aspx"><span class="list-icon">&nbsp;</span>Grinding</a></li>--%>
+                                    <li id="Offset" runat="server"><a href="Offset-Printing.aspx"><span class="list-icon">&nbsp;</span>Offset Printing</a></li>
+                                    <li id="Power" runat="server"><a href="Power-Press.aspx"><span class="list-icon">&nbsp;</span>Power Press</a></li>
+                                    <li id="Round" runat="server"><a href="Round-Tin.aspx"><span class="list-icon">&nbsp;</span>Round Tin</a></li>
+                                    <%--<li id="ProducedItem" runat="server"><a href="ProductionOutput.aspx"><span class="list-icon">&nbsp;</span>Produced Item Entry</a></li>--%>
+                                    <%--<li id="EmployeeProduction" runat="server"><a href="Employee-Production.aspx"><span class="list-icon">&nbsp;</span>Production Entry</a></li>--%>
+                                    <%--
+									<li id="Stockinfinished" runat="server"><a href="Stock-in.aspx?type=finished"><span class="list-icon">&nbsp;</span>Finished Stock-in</a></li>
+									<li id="Stockoutraw" runat="server"><a href="Stock-Out.aspx?type=raw"><span class="list-icon">&nbsp;</span>Raw Stock-out</a></li>
+								   <li id="Stockinpackaging" runat="server"><a href="Stock-in.aspx?type=packaging"><span class="list-icon">&nbsp;</span>Product Packaging</a></li>--%>
+                                </span>
+                                <li class="subheading_menu Production-top"><span class="list-icon">&nbsp;</span>Production Plastic</li>
+                                <span id="Span4" runat="server" class="Production-Open" style="display: none; width: 100%;">
+                                    <%--<li id="ProducedItem" runat="server"><a href="ProductionOutput.aspx"><span class="list-icon">&nbsp;</span>Produced Item Entry</a></li>--%>
+                                    <li id="RawMaterial" runat="server"><a href="ProductionInput.aspx"><span class="list-icon">&nbsp;</span>Raw Material Input</a></li>
+                                    <li id="ProducedItem" runat="server"><a href="ProductionOutput.aspx"><span class="list-icon">&nbsp;</span>Produced Item Entry</a></li>
+                                    <li id="polySection" runat="server"><a href="Poly-Section.aspx"><span class="list-icon">&nbsp;</span>Poly Section</a></li>
+                                    <li id="inkStock" runat="server"><a href="InkStock.aspx"><span class="list-icon">&nbsp;</span>Daily Ink Stock</a></li>
+                                    <li id="Screen" runat="server"><a href="Screen-Print.aspx"><span class="list-icon">&nbsp;</span>Screen Print</a></li>
+                                    <li id="dopSection" runat="server"><a href="DOPSection.aspx"><span class="list-icon">&nbsp;</span>DOP Section</a></li>
+                                    <li id="Li50" runat="server"><a href="ProductionOutput.aspx?p=iml"><span class="list-icon">&nbsp;</span>IML Print</a></li>
+                                    <li id="Li51" runat="server"><a href="HTF-Print.aspx"><span class="list-icon">&nbsp;</span>HTF Foil Use</a></li>
+                                    <li id="Plastic2" runat="server"><a href="Plastic-Finishing.aspx"><span class="list-icon">&nbsp;</span>Plastic Finishing</a></li>
+
+                                    <%--<li id="EmployeeProduction" runat="server"><a href="Employee-Production.aspx"><span class="list-icon">&nbsp;</span>Production Entry</a></li>--%>
+                                    <%--
+									<li id="Stockinfinished" runat="server"><a href="Stock-in.aspx?type=finished"><span class="list-icon">&nbsp;</span>Finished Stock-in</a></li>
+									<li id="Stockoutraw" runat="server"><a href="Stock-Out.aspx?type=raw"><span class="list-icon">&nbsp;</span>Raw Stock-out</a></li>
+								   <li id="Stockinpackaging" runat="server"><a href="Stock-in.aspx?type=packaging"><span class="list-icon">&nbsp;</span>Product Packaging</a></li>--%>
+                                </span>
+                                <li class="subheading_menu Production-top"><span class="list-icon">&nbsp;</span>Crushing</li>
+                                <span id="Span5" runat="server" class="Production-Open" style="display: none; width: 100%;">
+                                    <%--<li id="ProducedItem" runat="server"><a href="ProductionOutput.aspx"><span class="list-icon">&nbsp;</span>Produced Item Entry</a></li>--%>
+                                    <li id="crushingSection" runat="server"><a href="CrushingSection.aspx"><span class="list-icon">&nbsp;</span>Crushing Section</a></li>
+                                    <%--<li id="EmployeeProduction" runat="server"><a href="Employee-Production.aspx"><span class="list-icon">&nbsp;</span>Production Entry</a></li>--%>
+                                    <%--
+									<li id="Stockinfinished" runat="server"><a href="Stock-in.aspx?type=finished"><span class="list-icon">&nbsp;</span>Finished Stock-in</a></li>
+									<li id="Stockoutraw" runat="server"><a href="Stock-Out.aspx?type=raw"><span class="list-icon">&nbsp;</span>Raw Stock-out</a></li>
+								   <li id="Stockinpackaging" runat="server"><a href="Stock-in.aspx?type=packaging"><span class="list-icon">&nbsp;</span>Product Packaging</a></li>--%>
+                                </span>
+
+                                <li class="subheading_menu Production-Reports"><span class="list-icon">&nbsp;</span>Reports</li>
+                                <span id="sub16a" runat="server" class="Production-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="Li64" runat="server"><a href="rpt-Daily-Production.aspx"><span class="list-icon">&nbsp;</span>Daily Production Sheet</a></li>
+                                    <li id="Li52pc" runat="server"><a href="rpt-Prdn-Plastic-Container.aspx"><span class="list-icon">&nbsp;</span>Plastic Container Report</a></li>
+                                    <li id="DeliveryReport" runat="server"><a href="DeliveryReport.aspx"><span class="list-icon">&nbsp;</span>Delivery Report</a></li>
+
+                                    <li id="ProductionDate" runat="server"><a href="Production-Date.aspx"><span class="list-icon">&nbsp;</span>Screen Print History</a></li>
+                                    <li id="Li52htf" runat="server"><a href="rpt-Prdn-HTF.aspx"><span class="list-icon">&nbsp;</span>HTF & IML History</a></li>
+                                    <li id="Li52pf" runat="server"><a href="rpt-Prdn-Plastic-Finish.aspx"><span class="list-icon">&nbsp;</span>Plastic Finishing History</a></li>
+
+                                    <li id="StockRegister" runat="server"><a href="Stock-Register.aspx"><span class="list-icon">&nbsp;</span>Stock Register</a></li>
+                                    <li id="inkStockSummary" runat="server"><a href="InkStockRegister.aspx"><span class="list-icon">&nbsp;</span>Ink Stock Summary</a></li>
+                                    <li id="stockRegisterForHTFFoils" runat="server"><a href="StockRegisterForHTFFoils.aspx"><span class="list-icon">&nbsp;</span>Stock Register For HTF Foil</a></li>
+                                    <li id="stockRegisterForIMLItems" runat="server"><a href="StockRegisterForIMLItems.aspx"><span class="list-icon">&nbsp;</span>Stock Register For IML Items</a></li>
+                                    <li id="ProductionHourly" runat="server"><a href="Production-Hourly.aspx"><span class="list-icon">&nbsp;</span>Hourly Production Report</a></li>
+                                    <li id="ProductionEfficiency" runat="server"><a href="Production-Efficiency.aspx"><span class="list-icon">&nbsp;</span>Employee Efficiency Report</a></li>
+                                    <li id="ProductionSection" runat="server"><a href="Production-Section.aspx"><span class="list-icon">&nbsp;</span>Production by Sections</a></li>
+                                    <li id="RawStockConsumption" runat="server"><a href="FormRawStockConsumption.aspx"><span class="list-icon">&nbsp;</span>Raw Stock Consumption</a></li>
+                                    <li id="wastageStockRegister" runat="server"><a href="WastageStockRegister.aspx"><span class="list-icon">&nbsp;</span>Wastage Stock Register</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <%--</asp:Panel>
+
+						<asp:Panel id="AccountsMenuPanel" runat="server">--%>
+                        <li id="Accounts" runat="server"><a href="#"><span class="nav_icon money"></span>Accounts<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+                                <li class="subheading_menu Accounts-Setups"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub17" runat="server" class="Accounts-Setups-Open" style="display: none; width: 100%;">
+                                    <%--<li id="AccountsGroup" runat="server"><a href="Accounts-Group.aspx"><span class="list-icon">&nbsp;</span>Account Groups</a></li>
+									<li id="AccountsCategory" runat="server"><a href="Accounts-Category.aspx"><span class="list-icon">&nbsp;</span>Account Categories</a></li>
+									<li id="AccountsControl" runat="server"><a href="Accounts-Control.aspx"><span class="list-icon">&nbsp;</span>Accounts Types</a></li>
+									<li id="AccountsHead" runat="server"><a href="Accounts-Head.aspx"><span class="list-icon">&nbsp;</span>Accounts Head Setup</a></li>
+                                    --%>
+                                    <li id="AccountsCategory" runat="server"><a href="SubAcc.aspx"><span class="list-icon">&nbsp;</span>Subsidiary Accounts</a></li>
+                                    <li id="AccountsControl" runat="server"><a href="Control.aspx"><span class="list-icon">&nbsp;</span>Control Accounts</a></li>
+                                    <li id="AccountsHead" runat="server"><a href="Head.aspx"><span class="list-icon">&nbsp;</span>Accounts Head Setup</a></li>
+
+                                    <li id="bank" runat="server"><a href="Bank.aspx?type=bank"><span class="list-icon">&nbsp;</span>Banks Setup</a></li>
+                                    <li id="bankBranch" runat="server"><a href="BankBranch.aspx"><span class="list-icon">&nbsp;</span>Branch Setup</a></li>
+                                    <li id="BankAccounts" runat="server"><a href="Bank-Accounts.aspx"><span class="list-icon">&nbsp;</span>Bank Accounts</a></li>
+                                    <li id="Particulars" runat="server"><a href="Particulars.aspx"><span class="list-icon">&nbsp;</span>Particulars</a></li>
+                                    <li id="AccRptSettings" runat="server"><a href="Acc-Rpt-Settings.aspx"><span class="list-icon">&nbsp;</span>Report Settings</a></li>
+                                    <%--<li id="AccFixedAssetsSch" runat="server"><a href="AddFixedAssets.aspx"><span class="list-icon">&nbsp;</span>Add Fixed Assets</a></li>--%>
+
+                                    <li id="BankLoanTypes" runat="server"><a href="BankLoanTypes.aspx"><span class="list-icon">&nbsp;</span>BankLoan Types</a></li>
+                                    <li id="BankLoan" runat="server"><a href="BankLoan.aspx"><span class="list-icon">&nbsp;</span>Bank Loans</a></li>
+                                    <li id="ShareholdersEquity" runat="server"><a href="ShareholdersEquity.aspx"><span class="list-icon">&nbsp;</span>Shareholders Equity</a></li>
+                                </span>
+                                <li class="subheading_menu Accounts-DE"><span class="list-icon">&nbsp;</span>Voucher</li>
+                                <span id="sub18" runat="server" class="Accounts-DE-Open" style="display: none; width: 100%;">
+                                    <li id="VoucherEntry" runat="server"><a href="VoucherEntry.aspx"><span class="list-icon">&nbsp;</span>Voucher Entry</a></li>
+                                    <%--li id="Li60" runat="server"><a href="LC-Items.aspx"><span class="list-icon">&nbsp;</span>LC Items Received</a></li--%>
+                                    <li id="Li61" runat="server"><a href="Voucher-Qty.aspx"><span class="list-icon">&nbsp;</span>Voucher with Quantity</a></li>
+                                    <li id="Li67" runat="server"><a href="DeptPro.aspx"><span class="list-icon">&nbsp;</span>Depreciation Process</a></li>
+                                    <li id="lcVoucherApproval" runat="server"><a href="Finyearprocess.aspx"><span class="list-icon">&nbsp;</span>Financial Year Process</a></li>
+                                    <li id="Li62" runat="server"><a href="LC-VoucherApproval.aspx"><span class="list-icon">&nbsp;</span>LC Voucher Approval</a></li>
+
+                                </span>
+
+                                <li class="subheading_menu Accounts-Reports"><span class="list-icon">&nbsp;</span>Reports</li>
+                                <span id="sub19" runat="server" class="Accounts-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="AccountsChartReport" runat="server"><a href="Accounts-Chart-Report.aspx"><span class="list-icon">&nbsp;</span>Chart of Accounts</a></li>
+                                    <li id="VoucherEditHistory" runat="server"><a href="Voucher-Edit-History.aspx"><span class="list-icon">&nbsp;</span>Voucher Edit/Delete</a></li>
+                                    <li id="Li69" runat="server"><a href="Cheque-Receipt-Payment.aspx"><span class="list-icon">&nbsp;</span>Cheque Rcpt/Payment</a></li>
+                                    <li id="ReceiptsPayment" runat="server"><a href="Receipts-Payment.aspx"><span class="list-icon">&nbsp;</span>Receipts/Payment</a></li>
+                                    <li id="IncomeStatement" runat="server"><a href="IncomeStatement.aspx"><span class="list-icon">&nbsp;</span>Income Statement</a></li>
+                                    <li id="TrialBalance" runat="server"><a href="Trial-Balance.aspx"><span class="list-icon">&nbsp;</span>Trial Balance</a></li>
+                                    <li id="BalanceSheet" runat="server"><a href="BalanceSheet.aspx"><span class="list-icon">&nbsp;</span>Balance Sheet</a></li>
+                                    <li id="CashFlow" runat="server"><a href="CashFlow.aspx"><span class="list-icon">&nbsp;</span>Cash Flow</a></li>
+                                    <li id="ChangesinEquity" runat="server"><a href="Changes-in-Equity.aspx"><span class="list-icon">&nbsp;</span>Changes in Equity</a></li>
+                                    <%--<li id="equityratio" runat="server"><a href="equity-ratio.aspx"><span class="list-icon">&nbsp;</span>Equity Ratio</a></li>--%>
+
+                                    <li id="BankBook" runat="server"><a href="Bank-Ladger.aspx"><span class="list-icon">&nbsp;</span>Bank Book</a></li>
+                                    <li id="BankBalanceReport" runat="server"><a href="Bank-Book.aspx"><span class="list-icon">&nbsp;</span>Bank Balance</a></li>
+                                    <%--<li id="PL" runat="server"><a href="Reports/PL.aspx" target="_blank"><span class="list-icon">&nbsp;</span>PL Account</a></li>--%>
+                                    <%--<li id="LedgerGroup" runat="server"><a href="Reports/LedgerGroup.aspx" target="_blank"><span class="list-icon">&nbsp;</span>A/C Group Ledger</a></li>--%>
+                                    <li id="LedgerSub" runat="server"><a href="LedgerSub.aspx"><span class="list-icon">&nbsp;</span>Sub A/C Ledger</a></li>
+                                    <li id="LedgerControl" runat="server"><a href="LedgerControl.aspx"><span class="list-icon">&nbsp;</span>Control A/C Ledger</a></li>
+                                    <li id="LedgerHead" runat="server"><a href="LedgerHead.aspx"><span class="list-icon">&nbsp;</span>A/C Head Ledger</a></li>
+                                    <li id="Li666" runat="server"><a href="LedgerHead.aspx?type=Qty"><span class="list-icon">&nbsp;</span>A/C Head Ledger (Qty)</a></li>
+
+                                    <li id="accTrRec" runat="server"><a href="Acc-Trade-Receivable.aspx"><span class="list-icon">&nbsp;</span>Trade Receivables</a></li>
+                                    <li id="Li66" runat="server"><a href="Acc-Trade-Payable.aspx"><span class="list-icon">&nbsp;</span>Trade Payable</a></li>
+                                    <li id="Li68" runat="server"><a href="BankLoansReport.aspx"><span class="list-icon">&nbsp;</span>Bank Loans Report</a></li>
+                                    <li id="Li70" runat="server"><a href="LoanLedger.aspx"><span class="list-icon">&nbsp;</span>Loans Ledger</a></li>
+                                    <li id="Li54" runat="server"><a href="Sale-Colln-Summery.aspx"><span class="list-icon">&nbsp;</span>Collection Summary</a></li>
+                                    <li id="Li55" runat="server"><a href="TDS-Report.aspx"><span class="list-icon">&nbsp;</span>Control A/C Summary</a></li>
+                                    <li id="Li55x" runat="server"><a href="Control-Balance.aspx"><span class="list-icon">&nbsp;</span>Control A/C Balance</a></li>
+                                    <li id="Li56" runat="server"><a href="Profit-Month.aspx"><span class="list-icon">&nbsp;</span>Profit by Month</a></li>
+                                    <li id="Li60" runat="server"><a href="Qty-Date-Ledger.aspx"><span class="list-icon">&nbsp;</span>Quantity Consumption by Date</a></li>
+
+                                    <li id="CancelledVouchers" runat="server"><a href="Reports/CancelledVouchers.aspx" target="_blank"><span class="list-icon">&nbsp;</span>Cancelled Vouchers</a></li>
+                                    <li id="ALLEntries" runat="server"><a href="Reports/ALLEntries.aspx" target="_blank"><span class="list-icon">&nbsp;</span>Voucher by Date</a></li>
+                                    <%--<li id="AssetValuations" runat="server"><a href="FixedAssetlist.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets List</a></li>
+                                    <li id="Li72" runat="server"><a href="FixedAssetPosition.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Position</a></li>
+                                    <li id="Li73" runat="server"><a href="DepRepo.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Depreciation</a></li>--%>
+									
+                                </span>
+                                <li class="subheading_menu Accounts-Reports"><span class="list-icon">&nbsp;</span>Fixed Assets</li>
+                                <span id="Span3" runat="server" class="Accounts-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="AccFixedAssetsSch" runat="server"><a href="AddFixedAssets.aspx"><span class="list-icon">&nbsp;</span>Add Fixed Assets</a></li>
+                                    <li id="FixedAssetsVoucherEntry" runat="server"><a href="FixedAssetsVoucherEntry.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Entry</a></li>
+                                    <li id="Li710" runat="server"><a href="FixedAssetsOut.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Out</a></li>
+                                    <li id="Li711" runat="server"><a href="FixedAssetsRegister.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Register</a></li>
+                                    <li id="Li72" runat="server"><a href="FixedAssetPosition.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Position</a></li>
+                                    <li id="Li71" runat="server"><a href="FixedAssetLedger.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Ledger</a></li>
+                                    <li id="Li73" runat="server"><a href="DepRepo.aspx"><span class="list-icon">&nbsp;</span>Fixed Assets Top Sheet</a></li>
+                                    <li id="Li75" runat="server"><a href="DepreciationSummaryReport.aspx"><span class="list-icon">&nbsp;</span>Depreciation Summary Report</a></li>
+
+                                </span>
+                            </ul>
+                        </li>
+
+                        <%--</asp:Panel>
+
+						<asp:Panel id="HRMMenuPanel" runat="server">--%>
+                        <li id="Payroll" runat="server"><a href="#"><span class="nav_icon users"></span>Payroll (HRM)<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+                                <li class="subheading_menu Payroll-Setups"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub20" runat="server" class="Payroll-Setups-Open" style="display: none; width: 100%;">
+                                    <li id="EmployeeDepartment" runat="server"><a href="Employee-Department.aspx"><span class="list-icon">&nbsp;</span>Employee Departments</a></li>
+                                    <li id="Sections" runat="server"><a href="Employee-Sectionas.aspx"><span class="list-icon">&nbsp;</span>Sections</a></li>
+                                    <li id="EmployeeDesignation" runat="server"><a href="Employee-Designation.aspx"><span class="list-icon">&nbsp;</span>Designations</a></li>
+                                    <li id="emptype" runat="server"><a href="Emp-Type.aspx"><span class="list-icon">&nbsp;</span>Rules & Regulations</a></li>
+                                    <li id="workSlots" runat="server"><a href="hrm-shift.aspx"><span class="list-icon">&nbsp;</span>Duty Shifts</a></li>
+                                    <li id="Li45" runat="server"><a href="Holidays.aspx"><span class="list-icon">&nbsp;</span>Holidays</a></li>
+
+                                    <li id="EmployeeInfo" runat="server"><a href="Employee-Info.aspx"><span class="list-icon">&nbsp;</span>Employee Setup</a></li>
+                                    <li id="EmployeeClose" runat="server"><a href="Employee-Close.aspx"><span class="list-icon">&nbsp;</span>Promotion/Termination</a></li>
+                                    <li id="EmployeeBonus" runat="server"><a href="Employee-Bonus.aspx"><span class="list-icon">&nbsp;</span>Bonus Setup</a></li>
+                                </span>
+                                <li class="subheading_menu Payroll-DE"><span class="list-icon">&nbsp;</span>Data Entry</li>
+                                <span id="sub21" runat="server" class="Payroll-DE-Open" style="display: none; width: 100%;">
+                                    <li id="EmpDailyAttn" runat="server"><a href="Emp-Daily-Attn.aspx"><span class="list-icon">&nbsp;</span>Daily Attendance</a></li>
+                                    <li id="EmpEditAttn" runat="server"><a href="Emp-Edit-Attn.aspx"><span class="list-icon">&nbsp;</span>Edit Employee Attendance</a></li>
+                                    <li id="EmpMonthlyAttn" runat="server"><a href="Emp-Monthly-Attn.aspx"><span class="list-icon">&nbsp;</span>Monthly Attendance</a></li>
+                                    <li id="EmpSalaryProcess" runat="server"><a href="Emp-Salary-Process.aspx"><span class="list-icon">&nbsp;</span>Salary Processing</a></li>
+                                    <li id="EmpBonusProcess" runat="server"><a href="Emp-Bonus-Process.aspx"><span class="list-icon">&nbsp;</span>Bonus Processing</a></li>
+                                    <li id="EmpPayment" runat="server"><a href="Emp-Payment.aspx"><span class="list-icon">&nbsp;</span>Pay to Employee</a></li>
+                                </span>
+                                <li class="subheading_menu Payroll-Reports"><span class="list-icon">&nbsp;</span>Reports</li>
+                                <span id="sub22" runat="server" class="Payroll-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="EmployeeListReport" runat="server"><a href="Employee-List-Report.aspx"><span class="list-icon">&nbsp;</span>List of Employees</a></li>
+                                    <li id="EmployeeSalaryReport" runat="server"><a href="Employee-Salary-Report.aspx"><span class="list-icon">&nbsp;</span>Salary Sheet</a></li>
+                                    <li id="EmployeePaySlipReport" runat="server"><a href="Employee-PaySlip-Report.aspx"><span class="list-icon">&nbsp;</span>Pay-Slip</a></li>
+                                    <li id="EmpLadger" runat="server"><a href="Emp-Ladger.aspx"><span class="list-icon">&nbsp;</span>Employee Ledger</a></li>
+                                    <li id="EmpAttHistory" runat="server"><a href="Emp-Att-History.aspx"><span class="list-icon">&nbsp;</span>Attendance History</a></li>
+                                    <li id="EmpApplications" runat="server"><a href="Emp-Applications.aspx"><span class="list-icon">&nbsp;</span>Employee Applications</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <%--</asp:Panel>
+
+						<asp:Panel id="CRMMenuPanel" runat="server">--%>
+
+                        <li id="CRM" runat="server"><a href="#"><span class="nav_icon customers_sl"></span>CRM<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+
+                                <li class="subheading_menu"><span class="list-icon">&nbsp;</span>Document Library</li>
+                                <span id="sub23" runat="server" class="CRM-Setups-Open" style="display: none; width: 100%;">
+                                    <li id="Li39" runat="server"><a href="Document-Library.aspx?type=LC"><span class="list-icon">&nbsp;</span>LC</a></li>
+                                    <li id="Li40" runat="server"><a href="Document-Library.aspx?type=PO"><span class="list-icon">&nbsp;</span>PO</a></li>
+                                    <li id="Li41" runat="server"><a href="Document-Library.aspx?type=Purchase"><span class="list-icon">&nbsp;</span>Purchase</a></li>
+                                    <li id="Li42" runat="server"><a href="Document-Library.aspx?type=LLC"><span class="list-icon">&nbsp;</span>LLC</a></li>
+                                    <li id="Li43" runat="server"><a href="Document-Library.aspx?type=Others"><span class="list-icon">&nbsp;</span>Others</a></li>
+                                    <li id="Li44" runat="server"><a href="Document-Library.aspx?type=Search"><span class="list-icon">&nbsp;</span>Search Doc Library</a></li>
+                                </span>
+                                <li class="subheading_menu CRM-Setups"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub24" runat="server" class="CRM-Setups-Open" style="display: none; width: 100%;">
+                                    <li id="AddressBook" runat="server"><a href="Address-Book.aspx"><span class="list-icon">&nbsp;</span>Address Book</a></li>
+                                    <li id="TaskScheduler" runat="server"><a href="Task-Scheduler.aspx"><span class="list-icon">&nbsp;</span>Task Scheduler</a></li>
+                                    <li id="ExpHeadcrm" runat="server"><a href="ExpHead.aspx?type=crm"><span class="list-icon">&nbsp;</span>Expense Heads</a></li>
+                                    <li id="ComplainCatagories" runat="server"><a href="Complain-Catagories.aspx"><span class="list-icon">&nbsp;</span>Complain Categories</a></li>
+                                </span>
+                                <li class="subheading_menu CRM-DE"><span class="list-icon">&nbsp;</span>Data Entry</li>
+                                <span id="sub25" runat="server" class="CRM-DE-Open" style="display: none; width: 100%;">
+                                    <li id="CustomerComplains" runat="server"><a href="Customer-Complains.aspx"><span class="list-icon">&nbsp;</span>Customer Queries</a></li>
+                                    <li id="SupportTicket" runat="server"><a href="Support-Ticket.aspx"><span class="list-icon">&nbsp;</span>Customer Support</a></li>
+                                    <li id="Campaign" runat="server"><a href="Campaign.aspx"><span class="list-icon">&nbsp;</span>New Campaign</a></li>
+                                    <li id="SendEmail" runat="server"><a href="Send-Email.aspx"><span class="list-icon">&nbsp;</span>Email to Customer</a></li>
+                                    <li id="Expensescrm" runat="server"><a href="Expenses.aspx?type=crm"><span class="list-icon">&nbsp;</span>Campaign Expenses</a></li>
+                                </span>
+                                <%--<li class="subheading_menu"><span class="list-icon">&nbsp;</span>Reports</li>
+									<li id="menuID141" runat="server"><a href="Currencies.aspx"><span class="list-icon">&nbsp;</span>Support Queries</a></li>
+									<li id="menuID142" runat="server"><a href="Tariff.aspx"><span class="list-icon">&nbsp;</span>Campaigns</a></li>--%>
+                            </ul>
+                        </li>
+                        <%--</asp:Panel>
+
+						<asp:Panel id="FactsMenuPanel" runat="server">--%>
+                        <li id="FactsModule" runat="server"><a href="#"><span class="nav_icon book"></span>Facts Module<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+                                <li class="subheading_menu FM-Declarations"><span class="list-icon">&nbsp;</span>Declarations</li>
+                                <span id="sub26" runat="server" class="FM-Declarations-Open" style="display: none; width: 100%;">
+                                    <li id="Li10" runat="server"><a href="Fact-Price-Declaration.aspx"><span class="list-icon">&nbsp;</span>Price Declaration</a></li>
+                                </span>
+                                <li class="subheading_menu FM-Consumptions"><span class="list-icon">&nbsp;</span>Consumptions</li>
+                                <span id="sub27" runat="server" class="FM-Consumptions-Open" style="display: none; width: 100%;">
+                                    <li id="Li15" runat="server"><a href="Fact-Consum-Stat.aspx"><span class="list-icon">&nbsp;</span>Consumption Statistics</a></li>
+                                    <li id="Li17" runat="server"><a href="Fact-Print-Impresion.aspx"><span class="list-icon">&nbsp;</span>Print Impresion</a></li>
+                                    <li id="Li16" runat="server"><a href="Fact-Reduce-MTT-Thiner.aspx"><span class="list-icon">&nbsp;</span>Reduce/MTT/Thiner</a></li>
+                                    <li id="Li18" runat="server"><a href="Fact-Ink-Consum.aspx"><span class="list-icon">&nbsp;</span>Ink Consumption</a></li>
+                                    <li id="Li11" runat="server"><a href="Fact-Coating-Vernish-Sizeetc.aspx"><span class="list-icon">&nbsp;</span>Coating, Varnish, Sizeetc</a></li>
+                                </span>
+                                <li class="subheading_menu FM-Measurements"><span class="list-icon">&nbsp;</span>Measurements</li>
+                                <span id="sub28" runat="server" class="FM-Measurements-Open" style="display: none; width: 100%;">
+                                    <li id="menuID141" runat="server"><a href="Fact-Tin-Sheet.aspx"><span class="list-icon">&nbsp;</span>Tin Sheet Measurement</a></li>
+                                    <li id="menuID142" runat="server"><a href="Fact-Height-Spec.aspx"><span class="list-icon">&nbsp;</span>Standard Height Spec.</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <%-- </asp:Panel>
+
+						<asp:Panel id="AdminMenuPanel" runat="server">--%>
+                        <li id="Admin" runat="server"><a href="#"><span class="nav_icon admin_user"></span>Admin<span class="up_down_arrow">&nbsp;</span></a>
+                            <ul class="acitem">
+                                <li class="subheading_menu Admin-Setups"><span class="list-icon">&nbsp;</span>Setups</li>
+                                <span id="sub29" runat="server" class="Admin-Setups-Open" style="display: none; width: 100%;">
+                                    <li id="Li53" runat="server"><a href="System-Settings.aspx"><span class="list-icon">&nbsp;</span>System Settings</a></li>
+                                    <li id="Country_setup" runat="server" class="hidden"><a href="Country_setup.aspx"><span class="list-icon">&nbsp;</span>Country Setup</a></li>
+                                    <li id="Setup_City" runat="server" class="hidden"><a href="Setup_City.aspx"><span class="list-icon">&nbsp;</span>City Setup</a></li>
+                                    <li id="Company" runat="server"><a href="Company.aspx"><span class="list-icon">&nbsp;</span>Company Info</a></li>
+
+                                    <li id="Li49" runat="server"><a href="Sub-Menu.aspx"><span class="list-icon">&nbsp;</span>Sub Menu</a></li>
+                                    <li id="SettingsForms" runat="server"><a href="Settings-Forms.aspx"><span class="list-icon">&nbsp;</span>Form Settings</a></li>
+
+                                </span>
+
+                                <li class="subheading_menu Admin-NM"><span class="list-icon">&nbsp;</span>Notice & Messages</li>
+                                <span id="sub30" runat="server" class="Admin-NM-Open" style="display: none; width: 100%;">
+                                    <li id="PostNews" runat="server"><a href="Post-News.aspx"><span class="list-icon">&nbsp;</span>Post News to Scroll</a></li>
+                                    <li id="PostMessage" runat="server"><a href="Post-Message.aspx"><span class="list-icon">&nbsp;</span>Send Message to User</a></li>
+                                    <li id="NewsEdit" runat="server"><a href="NewsEdit.aspx"><span class="list-icon">&nbsp;</span>Edit News</a></li>
+                                    <li id="AllNews" runat="server"><a href="All-News.aspx"><span class="list-icon">&nbsp;</span>All News Updates</a></li>
+                                    <li id="CheckMsg" runat="server"><a href="Check-Msg.aspx"><span class="list-icon">&nbsp;</span>Received Messages</a></li>
+                                </span>
+
+                                <li class="subheading_menu Admin-US"><span class="list-icon">&nbsp;</span>Users & Security</li>
+                                <span id="sub31" runat="server" class="Admin-US-Open" style="display: none; width: 100%;">
+                                    <li id="Li47" runat="server"><a href="Permission-Level.aspx"><span class="list-icon">&nbsp;</span>User Permissions Level</a></li>
+                                    <li id="SettingsUserPermission" runat="server"><a href="Settings-User-Permission.aspx"><span class="list-icon">&nbsp;</span>Menu Level Security</a></li>
+                                    <li id="Li57" runat="server"><a href="FormUserLevelSecurity.aspx"><span class="list-icon">&nbsp;</span>Form Level Security</a></li>
+                                    <li id="MenuStructure" runat="server"><a href="MenuStructure.aspx"><span class="list-icon">&nbsp;</span>Menu Structure</a></li>
+                                    <li id="NewUser" runat="server"><a href="New-User.aspx"><span class="list-icon">&nbsp;</span>Create Login Profile</a></li>
+                                    <li id="Unlock" runat="server"><a href="Unlock.aspx"><span class="list-icon">&nbsp;</span>Block User</a></li>
+                                    <li id="ResetPassword" runat="server"><a href="ResetPassword.aspx"><span class="list-icon">&nbsp;</span>Reset Password</a></li>
+                                    <li id="LoginHistory" runat="server"><a href="Login-History.aspx"><span class="list-icon">&nbsp;</span>User Login History</a></li>
+                                    <li id="userActivity" runat="server"><a href="Login-History.aspx"><span class="list-icon">&nbsp;</span>User Activity Log</a></li>
+                                </span>
+
+                                <li class="subheading_menu Admin-Reports"><span class="list-icon">&nbsp;</span>Admin Reports</li>
+                                <span id="sub32" runat="server" class="Admin-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="DocumentsUpload" runat="server"><a href="Documents-Upload.aspx"><span class="list-icon">&nbsp;</span>Important Documents</a></li>
+                                </span>
+
+                                <li class="subheading_menu Admin-Reports"><span class="list-icon">&nbsp;</span>Maintenance</li>
+                                <span id="sub33" runat="server" class="Admin-Reports-Open" style="display: none; width: 100%;">
+                                    <li id="Li22" runat="server"><a href="Backup.aspx"><span class="list-icon">&nbsp;</span>Data Backup</a></li>
+                                    <li id="FinishedGoodsAdjustProcess" runat="server"><a href="FinishedGoodsAdjustProcess.aspx"><span class="list-icon">&nbsp;</span>Finished Goods Adjustment Process</a></li>
+                                </span>
+                            </ul>
+                        </li>
+                        <%--</asp:Panel>--%>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="container">
+            <div id="header" class="blue_lin">
+                <div class="header_left">
+                    <div class="logo">
+                        <asp:Image ID="imgLogo" runat="server" Width="160" Height="60" />
+                    </div>
+                </div>
+
+                <div id="mobilemenu">
+                    <div id="showmenu"></div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#showmenu').toggle(
+                                function () {
+                                    $('#left_bar').slideDown("fast");
+                                },
+                                function () {
+                                    $('#left_bar').slideUp("fast");
+                                }
+                            );
+                        });
+                    </script>
+                </div>
+                <div class="header_right">
+                    <div id="top_notification">
+                        <ul>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle alert"><span class="icon"></span>
+                                    <asp:Label ID="lblPOrder" runat="server" Text="" class="alert_notify orange" /></a>
+                                <div class="notification_list dropdown-menu pull-left blue_d">
+                                    <div class="white_lin nlist_block">
+                                        <ul>
+                                            <asp:Repeater ID="Repeater1" runat="server" DataSourceID="SqlDataSource1">
+                                                <ItemTemplate>
+                                                    <li>
+                                                        <div class="nlist_thumb">
+                                                            <img src="images/order.png" width="40" height="40" alt="img">
+                                                        </div>
+                                                        <div class="list_inf">
+                                                            <a title="click to edit" href='Sales-Edit.aspx?ID=<%#Eval("InvNo") %>'><%#Eval("OrderDetail") %> </a>
+                                                        </div>
+                                                    </li>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:Connection_String %>"
+                                                SelectCommand="SELECT TOP (5) InvNo, InvNo + '  <br>' +
+												(SELECT Company FROM Party WHERE (PartyID = Sales.CustomerID)) AS  OrderDetail FROM Sales
+												 ORDER BY SaleID DESC"></asp:SqlDataSource>
+
+
+                                        </ul>
+                                        <span class="btn_24_blue">
+                                            <a href="Sales-Direct.aspx">New Invoice</a>
+                                            <a href="Invoice-Date-Range.aspx">View All</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                            <li class="inbox dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="icon"></span>
+                                    <%--<span class="alert_notify blue">17</span>--%>
+                                    <asp:Label ID="lblPendingMsg" runat="server" class="alert_notify blue" Text=""></asp:Label>
+                                </a>
+                                <div class="notification_list dropdown-menu blue_d">
+                                    <div class="white_lin nlist_block">
+                                        <ul>
+                                            <asp:Repeater ID="Repeater2" runat="server" DataSourceID="SqlDataSource2">
+                                                <ItemTemplate>
+                                                    <li>
+                                                        <div class="nlist_thumb">
+                                                            <img src="images/message_icon.png" width="40" height="40" alt="img">
+                                                        </div>
+                                                        <div class="list_inf">
+                                                            <a title="click to read" href='Check-Msg.aspx?ID=<%#Eval("MsgID") %>'><%#Eval("OrderDetail") %> </a>
+                                                        </div>
+                                                    </li>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                            <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:Connection_String %>"
+                                                SelectCommand="SELECT TOP (5) MsgID, Sender + '  <br>' + Convert(varchar,EntryDate) AS  OrderDetail FROM Messaging  where Receiver=@Receiver ORDER BY [MsgID] DESC">
+                                                <SelectParameters>
+                                                    <asp:ControlParameter ControlID="lblUser" Name="Receiver" PropertyName="Text" />
+                                                </SelectParameters>
+                                            </asp:SqlDataSource>
+                                            <asp:Label ID="lblUser" runat="server" Text="" Visible="False"></asp:Label>
+
+                                        </ul>
+                                        <span class="btn_24_blue">
+                                            <a href="Post-Message.aspx">New Msg</a>
+                                            <a href="Check-Msg.aspx">View All</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="user_nav">
+                        <ul>
+                            <li class="user_thumb"><a href="Profile.aspx"><span class="icon">
+                                <img src="../images/user_thumb.png" width="30" height="30" alt="User" /></span></a></li>
+                            <li class="user_info"><span class="user_name">
+                                <asp:LoginName ID="LoginName1" runat="server" />
+                                <%--<b class='blink_me' >DEMO</b>--%>
+                            </span><span style="font-size: .9em; color: Aqua;">Last Loged-in: <a href="Login-History.aspx">
+                                <asp:Label ID="lblLogedIn" runat="server" Text="30-12-2012 14:52:53"></asp:Label></a></span></li>
+                            <li class="logout">
+                                <asp:LinkButton ID="LinkButtonx" runat="server" OnClick="LinkButtonx_Click"><span class="icon"></span>Logout</asp:LinkButton>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <asp:ContentPlaceHolder ID="deshboard" runat="server"></asp:ContentPlaceHolder>
+
+
+            <div id="content">
+                <div class="grid_container">
+
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+
+                    <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+                    </asp:ContentPlaceHolder>
+
+
+                    <span class="clear"></span>
+                </div>
+
+                <div class="developer">
+                    <asp:Literal ID="ltrDeveloper" runat="server"></asp:Literal>. &nbsp;
+					<%--<a href="#" id="download" class="button">Logout in 890 Seconds.</a>--%>
+                </div>
+
+                <span class="clear"></span>
+            </div>
+        </div>
+
+
+    </form>
+
+    <%-- /End Footer Container --%>
+    <%-- /Busy Loader --%>
+    <div id="IMGDIV" style="display: none; position: absolute; left: 95%; top: 50%; vertical-align: middle; border-style: inset; border-color: black; background-color: White; z-index: 1000;">
+        <img src="../images/xerp_loader.gif" alt="Processing... Please Wait." />
+    </div>
+    <%--<div class="loading" align="center">
+		Processing... Please Wait.<br />
+		<br />
+		<img src="../images/xerp_loader.gif" alt="" />
+	</div>--%>
+
+
+    <noscript>
+        <meta http-equiv="REFRESH" content="0; url=js-error.aspx" />
+    </noscript>
+
+    <%-- Placed at the end of the document so the pages load faster --%>
+    <script src="../js/chosen.jquery.min.js" type="text/javascript"></script>
+    <script src="../js/uniform.jquery.js" type="text/javascript"></script>
+
+    <script src="../js/sticky.full.js" type="text/javascript"></script>
+    <script src="../js/jquery.noty.js" type="text/javascript"></script>
+    <script src="../js/notify.min.js"></script>
+    <script src="../js/selectToUISlider.jQuery.js" type="text/javascript"></script>
+    <script src="../js/bootstrap-colorpicker.js" type="text/javascript"></script>
+    <script src="../js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="../js/jquery.tipsy.js" type="text/javascript"></script>
+
+    <script src="../js/accordion.jquery.js" type="text/javascript"></script>
+    <script src="../js/autogrow.jquery.js" type="text/javascript"></script>
+    <script src="../js/inputmask.jquery.js" type="text/javascript"></script>
+    <script src="../js/stepy.jquery.js" type="text/javascript"></script>
+    <script src="../js/vaidation.jquery.js" type="text/javascript"></script>
+    <script src="../js/custom-scripts.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        //var downloadButton = document.getElementById("download");
+        //var counter = 1500;
+        //var newElement = document.createElement("span");
+        //newElement.innerHTML = "You can download the file in 10 seconds.";
+        //var id;
+
+        //downloadButton.parentNode.replaceChild(newElement, downloadButton);
+        //id = setInterval(function () {
+        //    counter--;
+        //    if (counter < 0) {
+        //        newElement.parentNode.replaceChild(downloadButton, newElement);
+        //        clearInterval(id);
+        //    } else {
+        //        newElement.innerHTML = "Logout in " + counter.toString() + " seconds.";
+        //    }
+        //}, 1000);
+
+
+
+        //Sys.Application.add_init(appl_init);
+
+        //function appl_init() {
+        //    var pgRegMgr = Sys.WebForms.PageRequestManager.getInstance();
+        //    pgRegMgr.add_beginRequest(BeginHandler);
+        //    pgRegMgr.add_endRequest(EndHandler);
+        //}
+
+        //function BeginHandler() {
+        //    $get("IMGDIV").style.display = "";
+        //}
+
+        //function EndHandler() {
+        //    $get("IMGDIV").style.display = "none";
+        //}
+
+        //http://www.aspsnippets.com/Articles/Display-loading-image-while-PostBack-calls-in-ASPNet.aspx
+        //function ShowProgress() {
+        //    setTimeout(function () {
+        //        var modal = $('<div />');
+        //        modal.addClass("modal");
+        //        $('body').append(modal);
+        //        var loading = $(".loading");
+        //        loading.show();
+        //        var top = Math.max($(window).height() / 2 - loading[0].offsetHeight / 2, 0);
+        //        var left = Math.max($(window).width() / 2 - loading[0].offsetWidth / 2, 0);
+        //        loading.css({ top: top, left: left });
+        //    }, 200);
+        //}
+        //$('form').live("submit", function () {
+        //    ShowProgress();
+        //});
+
+
+        function PrintElem(elem) {
+            Popup($(elem).html());
+        }
+
+        function Popup(data) {
+            var mywindow = window.open('', 'XERP', 'height=400,width=600');
+            mywindow.document.write('<html><head><title>Print Report</title>');
+            /*optional stylesheet*/
+            mywindow.document.write('<style> </style>');
+            mywindow.document.write('</head><body style="margin: 0; font-family: Arial, Helvetica, sans-serif; font-size:8px;">');
+            mywindow.document.write(data);
+            mywindow.document.write('</body></html>');
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
+
+
+    </script>
+
+    <asp:ContentPlaceHolder ID="Foot" runat="server">
+    </asp:ContentPlaceHolder>
+
+</body>
+</html>
